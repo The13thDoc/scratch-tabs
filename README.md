@@ -12,3 +12,4 @@ This is a work in progress based on the [ram-tabs](https://github.com/The13thDoc
 Prototype/Modules:
 - [tablature](http://jsfiddle.net/LorAXE/PLEYK/)
 - [tuning](http://jsfiddle.net/LorAXE/TBkQ7/)
+- [drag-select](http://jsfiddle.net/LorAXE/dqBxw/)
