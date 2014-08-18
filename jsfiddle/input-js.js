@@ -36,7 +36,8 @@ function init(guitarStrings) {
     // Move DOWN the tablature
     for (var string = 1; string <= guitarStrings; string++) {
 
-      var cellID = 'cell_' + cell + 'x' + string;
+      var matrixID = cell + 'x' + string;
+      var cellID = 'cell_' + matrixID;
 
       var item = document.createElement('li');
       item.id = cellID;
@@ -48,20 +49,11 @@ function init(guitarStrings) {
 
       } else { // Write the cells
 
-        var canvasID = 'canvas_' + string + '-' + cell;
-        var canvas = document.createElement('canvas');
-        canvas.id = canvasID;
-        canvas.width = '20';
-        canvas.height = '20';
-
-        var line = canvas.getContext("2d");
-        line.fillStyle = "#000000";
-        line.fillRect(0, 10, 20, 1);
-        line.font = '12px Arial';
+        var canvasElement = getNewCanvas(matrixID);
 
         // front
         item.className = 'cell input-cell ui-state-default';
-        item.appendChild(canvas);
+        item.appendChild(canvasElement);
       }
       column.appendChild(item);
 
@@ -81,6 +73,20 @@ function init(guitarStrings) {
   content.appendChild(tabDiv);
 }
 
+/**
+ * Returns a new canvas element with the default drawing.
+ */
+function getNewCanvas(id) {
+  var canvasElement = document.createElement('canvas');
+  canvasElement.id = 'canvas_'+id;
+  canvasElement.width = '20';
+  canvasElement.height = '20';
+
+  var canvas = canvasElement.getContext("2d");
+  drawLine(canvas);
+
+  return canvasElement;
+}
 
 /**
 * Translate key codes from a number pad
@@ -103,45 +109,63 @@ function fromKeyCode(key) {
   return numberPadMap[key];
 }
 
-// Input
-function writeToCanvas(id, text) {
-  var element = document.getElementById(id);
-  console.log('Write: '+text+' to cell: '+element.id);
-
-  var line = element.getContext("2d");
-  // line.fillStyle = "#000000";
-  // line.fillRect(0, 10, 20, 1);
-  line.font = '12px Arial';
-  line.strokeText(text, 7, 15);
-}
-
 /*
 * On load
 */
 document.addEventListener('keyup', function(event) {
   var key = event.keyCode;
-  var char = String.fromCharCode(key);
+  var char;
+  // Get only the matrix index. Disregard the element type.
+  var index = selected[0].replace('cell_', '');
+
 
   // INPUT mode
   if (selected.length != 0) {
     // TO DO: Set a timeout
 
     if (key >= 48 && key <= 57) {
+      char = String.fromCharCode(key);
       console.log('keyCode: '+key);
       console.log('charCode: '+char);
 
-      writeToCanvas(selected[0], char);
+      writeToCanvas(index, char);
     }
     // 96 - 105 (number pad)
     if (key >= 96 && key <= 105) {
+      char = fromKeyCode(key);
       console.log('keyCode: '+key);
-      console.log('charCode: '+fromKeyCode(key));
+      console.log('charCode: '+char);
 
-      writeToCanvas(selected[0], char);
+      writeToCanvas(index, char);
     }
 
   }
 }, true);
+
+
+// Input
+function writeToCanvas(id, text) {
+  var cell = document.getElementById('cell_'+id);
+  cell.removeChild(cell.lastChild);
+
+  var canvasElement = getNewCanvas(id);
+  console.log('Write: '+text+' to cell: '+canvasElement.id);
+
+  var canvas = canvasElement.getContext("2d");
+  // repaint entire canvas
+  canvas.font = '12px Arial';
+  canvas.strokeText(text, 7, 15);
+
+  // add new canvas element to cell
+  cell.appendChild(canvasElement);
+}
+
+// Pain the default look onto the canvas cell.
+function drawLine(canvas) {
+  // paint black line
+  canvas.fillStyle = "#000000";
+  canvas.fillRect(0, 10, 20, 1);
+}
 
 // Apply the jQuery selectability to an element.
 function makeSelectable(e) {
