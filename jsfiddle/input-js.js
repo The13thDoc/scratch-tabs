@@ -115,13 +115,13 @@ function fromKeyCode(key) {
 document.addEventListener('keyup', function(event) {
   var key = event.keyCode;
   var char;
-  // Get only the matrix index. Disregard the element type.
-  var index = selected[0].replace('cell_', '');
-
 
   // INPUT mode
   if (selected.length != 0) {
     // TO DO: Set a timeout
+
+    // Get only the matrix index. Disregard the element type.
+    var index = selected[0].replace('cell_', '');
 
     if (key >= 48 && key <= 57) {
       char = String.fromCharCode(key);
@@ -137,6 +137,14 @@ document.addEventListener('keyup', function(event) {
       console.log('charCode: '+char);
 
       writeToCanvas(index, char);
+    }
+    // 8 (backspace), 27 (escape)
+    if (key === 8 || key === 27) {
+      char = fromKeyCode(key);
+      console.log('keyCode: '+key);
+      console.log('charCode: '+char);
+
+      clearCanvas(index);
     }
 
   }
@@ -155,6 +163,20 @@ function writeToCanvas(id, text) {
   // repaint entire canvas
   canvas.font = '12px Arial';
   canvas.strokeText(text, 7, 15);
+
+  // add new canvas element to cell
+  cell.appendChild(canvasElement);
+}
+
+/**
+ * Create a new, default canvas
+ */
+function clearCanvas(id) {
+  var cell = document.getElementById('cell_'+id);
+  cell.removeChild(cell.lastChild);
+
+  var canvasElement = getNewCanvas(id);
+  console.log('Clear cell: '+canvasElement.id);
 
   // add new canvas element to cell
   cell.appendChild(canvasElement);
