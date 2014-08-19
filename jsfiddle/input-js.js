@@ -1,7 +1,10 @@
 // On Load
+window.focus();
+
 var guitarStrings = 6;
 var selected = [];
 init(guitarStrings);
+var userInput = '';
 
 // Initialize the UI
 function init(guitarStrings) {
@@ -118,52 +121,72 @@ document.addEventListener('keyup', function(event) {
 
   // INPUT mode
   if (selected.length != 0) {
-    // TO DO: Set a timeout
+    var timeoutID = window.setTimeout(clearTemp, 1000);
 
-    for(var i = 0; i < selected.length; i++){
+    if (key >= 48 && key <= 57) {
+      char = String.fromCharCode(key);
+      userInput = userInput + char;
+      console.log('input','WRITE - keyCode: '+key+'; charCode: '+char+' = '+userInput);
 
-      // Get only the matrix index. Disregard the element type.
-      var index = selected[i].replace('cell_', '');
-
-      if (key >= 48 && key <= 57) {
-        char = String.fromCharCode(key);
-        console.log('input','WRITE - keyCode: '+key+'; charCode: '+char+'; matrix: '+index);
-
-        writeToCanvas(index, char);
-      }
-      // 96 - 105 (number pad)
-      if (key >= 96 && key <= 105) {
-        char = fromKeyCode(key);
-        console.log('input','WRITE FROM NUMBER PAD - keyCode: '+key+'; charCode: '+char+'; matrix: '+index);
-
-        writeToCanvas(index, char);
-      }
-      // 8 (backspace), 46 (delete)
-      if (key === 8 || key === 46) {
-        char = fromKeyCode(key);
-        console.log('input','ERASE - keyCode: '+key+'; charCode: '+char+'; matrix: '+index);
-
-        clearCanvas(index);
+      if (parseInt(userInput) > 20) {
+        console.log('input','Parse to int successful');
+        userInput = char;
       }
 
-      // 27 (escape)
-      if (key === 27) {
-        var cell = document.getElementById(selected[i]);
-        console.log('input','UNSELECT - keyCode: '+key+'; charCode: '+char+'; matrix: '+index);
-
-        cell.classList.remove('ui-selected');
-      }
+      writeAll(userInput);
     }
+
+    // 96 - 105 (number pad)
+    if (key >= 96 && key <= 105) {
+      char = fromKeyCode(key);
+      userInput = userInput + char;
+      console.log('input','WRITE - keyCode: '+key+'; charCode: '+char+' = '+userInput);
+
+      if (parseInt(userInput) > 20) {
+        console.log('input','Parse to int successful');
+        userInput = char;
+      }
+
+      writeAll(userInput);
+    }
+
+    // 8 (backspace), 46 (delete)
+    if (key === 8 || key === 46) {
+      clearAll();
+    }
+
+    // 27 (escape)
+    if (key === 27) {
+      unselectAll();
+    }
+
   }
 }, true);
 
+function clearTemp() {
+  if (userInput.length > 0) {
+    userInput = '';
+    console.log('input', 'Cleared temp');
+  }
+}
+
+/**
+* Write current user input to all selected cells.
+*/
+function writeAll(userInput) {
+  for(var i = 0; i < selected.length; i++){
+    // Get only the matrix index. Disregard the element type.
+    var index = selected[i].replace('cell_', '');
+
+    writeToCanvas(index, userInput);
+  }
+}
 
 /**
 * Draw user input to canvas cell.
 */
 function writeToCanvas(id, text) {
   var cell = document.getElementById('cell_'+id);
-  cell.removeChild(cell.lastChild);
 
   var canvasElement = getNewCanvas(id);
   var canvas = canvasElement.getContext("2d");
@@ -171,8 +194,28 @@ function writeToCanvas(id, text) {
   canvas.font = '11pt Arial';
   canvas.strokeText(text, 7, 15);
 
-  // add new canvas element to cell
+  // remove current canvas
+  cell.removeChild(cell.lastChild);
+  // add new canvas
   cell.appendChild(canvasElement);
+}
+
+function unselectAll() {
+  console.log('input','UNSELECT');
+  for(var i = 0; i < selected.length; i++){
+    var cell = document.getElementById(selected[i]);
+    cell.classList.remove('ui-selected');
+  }
+}
+
+function clearAll() {
+  console.log('input','ERASE');
+  for(var i = 0; i < selected.length; i++){
+    // Get only the matrix index. Disregard the element type.
+    var index = selected[i].replace('cell_', '');
+
+    clearCanvas(index);
+  }
 }
 
 /**
