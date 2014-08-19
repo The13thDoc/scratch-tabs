@@ -1,5 +1,5 @@
 // On Load
-window.focus();
+// window.focus();
 
 var guitarStrings = 6;
 var selected = [];
@@ -118,6 +118,7 @@ function fromKeyCode(key) {
 document.addEventListener('keyup', function(event) {
   var key = event.keyCode;
   var char;
+  var maxFrets = 24;
 
   // INPUT mode
   if (selected.length != 0) {
@@ -128,7 +129,7 @@ document.addEventListener('keyup', function(event) {
       userInput = userInput + char;
       console.log('input','WRITE - keyCode: '+key+'; charCode: '+char+' = '+userInput);
 
-      if (parseInt(userInput) > 20) {
+      if (parseInt(userInput) > maxFrets) {
         console.log('input','Parse to int successful');
         userInput = char;
       }
@@ -142,7 +143,7 @@ document.addEventListener('keyup', function(event) {
       userInput = userInput + char;
       console.log('input','WRITE - keyCode: '+key+'; charCode: '+char+' = '+userInput);
 
-      if (parseInt(userInput) > 20) {
+      if (parseInt(userInput) > maxFrets) {
         console.log('input','Parse to int successful');
         userInput = char;
       }
@@ -190,9 +191,13 @@ function writeToCanvas(id, text) {
 
   var canvasElement = getNewCanvas(id);
   var canvas = canvasElement.getContext("2d");
+  var x = canvasElement.width / 2;
+  var y = canvasElement.height / 2;
   // draw text
-  canvas.font = '11pt Arial';
-  canvas.strokeText(text, 7, 15);
+  canvas.font = '10pt Arial';
+  canvas.textAlign = 'center';
+  canvas.textBaseline = 'middle';
+  canvas.strokeText(text, x, y);
 
   // remove current canvas
   cell.removeChild(cell.lastChild);
