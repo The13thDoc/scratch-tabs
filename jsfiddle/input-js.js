@@ -74,8 +74,8 @@ function init(guitarStrings) {
 }
 
 /**
- * Returns a new canvas element with the default drawing.
- */
+* Returns a new canvas element with the default drawing.
+*/
 function getNewCanvas(id) {
   var canvasElement = document.createElement('canvas');
   canvasElement.id = 'canvas_'+id;
@@ -120,48 +120,55 @@ document.addEventListener('keyup', function(event) {
   if (selected.length != 0) {
     // TO DO: Set a timeout
 
-    // Get only the matrix index. Disregard the element type.
-    var index = selected[0].replace('cell_', '');
+    for(var i = 0; i < selected.length; i++){
 
-    if (key >= 48 && key <= 57) {
-      char = String.fromCharCode(key);
-      console.log('keyCode: '+key);
-      console.log('charCode: '+char);
+      // Get only the matrix index. Disregard the element type.
+      var index = selected[i].replace('cell_', '');
 
-      writeToCanvas(index, char);
+      if (key >= 48 && key <= 57) {
+        char = String.fromCharCode(key);
+        console.log('input','WRITE - keyCode: '+key+'; charCode: '+char+'; matrix: '+index);
+
+        writeToCanvas(index, char);
+      }
+      // 96 - 105 (number pad)
+      if (key >= 96 && key <= 105) {
+        char = fromKeyCode(key);
+        console.log('input','WRITE FROM NUMBER PAD - keyCode: '+key+'; charCode: '+char+'; matrix: '+index);
+
+        writeToCanvas(index, char);
+      }
+      // 8 (backspace), 46 (delete)
+      if (key === 8 || key === 46) {
+        char = fromKeyCode(key);
+        console.log('input','ERASE - keyCode: '+key+'; charCode: '+char+'; matrix: '+index);
+
+        clearCanvas(index);
+      }
+
+      // 27 (escape)
+      if (key === 27) {
+        var cell = document.getElementById(selected[i]);
+        console.log('input','UNSELECT - keyCode: '+key+'; charCode: '+char+'; matrix: '+index);
+
+        cell.classList.remove('ui-selected');
+      }
     }
-    // 96 - 105 (number pad)
-    if (key >= 96 && key <= 105) {
-      char = fromKeyCode(key);
-      console.log('keyCode: '+key);
-      console.log('charCode: '+char);
-
-      writeToCanvas(index, char);
-    }
-    // 8 (backspace), 27 (escape)
-    if (key === 8 || key === 27) {
-      char = fromKeyCode(key);
-      console.log('keyCode: '+key);
-      console.log('charCode: '+char);
-
-      clearCanvas(index);
-    }
-
   }
 }, true);
 
 
-// Input
+/**
+* Draw user input to canvas cell.
+*/
 function writeToCanvas(id, text) {
   var cell = document.getElementById('cell_'+id);
   cell.removeChild(cell.lastChild);
 
   var canvasElement = getNewCanvas(id);
-  console.log('Write: '+text+' to cell: '+canvasElement.id);
-
   var canvas = canvasElement.getContext("2d");
-  // repaint entire canvas
-  canvas.font = '12px Arial';
+  // draw text
+  canvas.font = '11pt Arial';
   canvas.strokeText(text, 7, 15);
 
   // add new canvas element to cell
@@ -169,14 +176,13 @@ function writeToCanvas(id, text) {
 }
 
 /**
- * Create a new, default canvas
- */
+* Create a new, default canvas (erase).
+*/
 function clearCanvas(id) {
   var cell = document.getElementById('cell_'+id);
   cell.removeChild(cell.lastChild);
 
   var canvasElement = getNewCanvas(id);
-  console.log('Clear cell: '+canvasElement.id);
 
   // add new canvas element to cell
   cell.appendChild(canvasElement);
