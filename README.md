@@ -10,6 +10,5 @@ This is a work in progress based on the [ram-tabs](https://github.com/The13thDoc
 [Scratch tabs design](https://docs.google.com/drawings/d/1aF2JeQ9Zi2AEM_f2ANQ4f1Uy9LuKfW33Ym_UDrNsmNU/edit?usp=sharing)
 
 Prototype/Modules:
-- [tablature](http://jsfiddle.net/LorAXE/PLEYK/)
+- [tablature](http://jsfiddle.net/LorAXE/PLEYK/embedded/result/)
 - [tuning](http://jsfiddle.net/LorAXE/TBkQ7/)
-- [drag-select](http://jsfiddle.net/LorAXE/dqBxw/)
