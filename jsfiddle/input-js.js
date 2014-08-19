@@ -118,7 +118,6 @@ function fromKeyCode(key) {
 document.addEventListener('keyup', function(event) {
   var key = event.keyCode;
   var char;
-  var maxFrets = 24;
 
   // INPUT mode
   if (selected.length != 0) {
@@ -129,7 +128,7 @@ document.addEventListener('keyup', function(event) {
       userInput = userInput + char;
       console.log('input','WRITE - keyCode: '+key+'; charCode: '+char+' = '+userInput);
 
-      if (parseInt(userInput) > maxFrets) {
+      if (parseInt(userInput) > 20) {
         console.log('input','Parse to int successful');
         userInput = char;
       }
@@ -143,7 +142,7 @@ document.addEventListener('keyup', function(event) {
       userInput = userInput + char;
       console.log('input','WRITE - keyCode: '+key+'; charCode: '+char+' = '+userInput);
 
-      if (parseInt(userInput) > maxFrets) {
+      if (parseInt(userInput) > 20) {
         console.log('input','Parse to int successful');
         userInput = char;
       }
