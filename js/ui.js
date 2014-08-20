@@ -1,12 +1,12 @@
 // On Load
 //window.focus();
+var guitarStrings = 6;
+var selected = [];
+var userInput = '';
 
 window.onload = function (){
-
-  var guitarStrings = 6;
-  var selected = [];
   init(guitarStrings);
-  var userInput = '';
+
 
   /*
   * On load
