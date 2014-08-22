@@ -1,6 +1,6 @@
 
 body {
-		font-family: 'Ubuntu Mono';
+	font-family: 'Ubuntu Mono';
 }
 
 #main-ui {
@@ -17,18 +17,18 @@ body {
 }
 
 .clear {
-    clear: both;
+	clear: both;
 }
 
 /*
 Tabs for each measure/riff
 */
 #measure-ui {
-    padding: 5px;
+	padding: 5px;
 }
 
 #measure-headers > ul > li {
-    margin:0 2px 0 0;
+	margin:0 2px 0 0;
 	padding:7px 10px;
 	display:block;
 	float:left;
@@ -51,49 +51,49 @@ Tabs for each measure/riff
 }
 
 #tab-div {
-    margin: 20px;
-    border-width: 1px;
-    border-top-width: 2px;
+	margin: 20px;
+	border-width: 1px;
+	border-top-width: 2px;
 }
 
 .columns {
-    -webkit-column-count: 11;
-    /* -moz-column-count: 10; */
-    /* column-count: 10; */
+	-webkit-column-count: 11;
+	/* -moz-column-count: 10; */
+	/* column-count: 10; */
 }
 
 .float-left {
-    float: left;
+	float: left;
 }
 /*
 Tablature cells
 */
 // Arrange the tablature horizontally
 .cell {
-    background: #ffffff;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    border: none;
+	background: #ffffff;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	border: none;
 }
 
 .tuning-cell {
-    border: solid;
-    border-width: 0px 2px 0px 0px;
+	border: solid;
+	border-width: 0px 2px 0px 0px;
 }
 
 .input-cell:hover {
-    background: orchid;
+	background: orchid;
 }
 
 .ui-selecting {
-    background: orange;
+	background: orange;
 }
 
 .ui-selected {
-    background: orange;
+	background: orange;
 }
 
 .ui-selected:hover {
-    background: orangered;
+	background: orangered;
 }
