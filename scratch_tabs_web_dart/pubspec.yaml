@@ -1,0 +1,4 @@
+name: scratch_tabs_web_dart
+description: A sample web application
+dependencies:
+  browser: any

@@ -1,0 +1,99 @@
+
+body {
+	font-family: 'Ubuntu Mono';
+}
+
+#main-ui {
+	margin: 20px auto 0 10px;
+}
+
+#main-ui a {
+	display:block;
+	font-size:1.2em;
+	padding-top:20px;
+	color:#FFF;
+	text-decoration:none;
+	text-align:center;
+}
+
+.clear {
+	clear: both;
+}
+
+/*
+Tabs for each measure/riff
+*/
+#measure-ui {
+	padding: 5px;
+}
+
+#measure-headers > ul > li {
+	margin:0 2px 0 0;
+	padding:7px 10px;
+	display:block;
+	float:left;
+	color:#FFF;
+	border-top-left-radius:10px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	background: #C9C9C9; /* old browsers */
+}
+
+#measure-headers > ul > li:hover{
+	background: #FFFFFF; /* old browsers */
+	cursor:pointer;
+	color: #333;
+}
+
+#measure-content {
+	color:#333;
+}
+
+#tab-div {
+	margin: 20px;
+	border-width: 1px;
+	border-top-width: 2px;
+}
+
+.columns {
+	-webkit-column-count: 11;
+	/* -moz-column-count: 10; */
+	/* column-count: 10; */
+}
+
+.float-left {
+	float: left;
+}
+/*
+Tablature cells
+*/
+// Arrange the tablature horizontally
+.cell {
+	background: #ffffff;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	border: none;
+}
+
+.tuning-cell {
+	border: solid;
+	border-width: 0px 2px 0px 0px;
+}
+
+.input-cell:hover {
+	background: orchid;
+}
+
+.ui-selecting {
+	background: orange;
+}
+
+.ui-selected {
+	background: orange;
+}
+
+.ui-selected:hover {
+	background: orangered;
+}
