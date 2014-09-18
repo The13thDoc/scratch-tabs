@@ -61,7 +61,12 @@ Tablature
 */
 
 .tuning-column {
+	float: left;
 	width: 15px;
+}
+
+#tuning-list li {
+	
 }
 
 .tuning-cell {
@@ -93,6 +98,7 @@ Tablature cells
 }
 
 #input-list {
+	float: left;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;

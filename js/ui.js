@@ -90,7 +90,7 @@ function init(guitarStrings) {
 
     var cellColumnID = 'column_' + cell;
     var column = document.createElement('ul');
-    column.id = cellColumnID;
+    column.id = 'tuning-list';
     column.className = 'tuning-column';
 
     // Move DOWN the tablature
