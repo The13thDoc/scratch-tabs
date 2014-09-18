@@ -4,6 +4,7 @@ var guitarStrings = 6;
 var maxFrets = 24;
 var totalCells = 36; // number of columns, or 'frets'
 var tabs = 0;
+var visibleTab = 0;
 var selected = [];
 var userInput = '';
 
@@ -11,7 +12,6 @@ var userInput = '';
 * On load
 */
 window.onload = function (){
-  init(guitarStrings);
   addMeasure();
 
   var addNewMeasure = document.getElementById('add-measure');
@@ -77,12 +77,13 @@ function init(guitarStrings) {
   content.setAttribute('style', 'overflow: auto;');
 
   var tabDiv = document.createElement('div');
-  tabDiv.id = 'tab-div';
+  tabDiv.id = 'tab-div-' + tabs.toString();
+  tabDiv.className = 'tab-div';
   // tabDiv.setAttribute('style', 'overflow: scroll;');
   content.appendChild(tabDiv);
 
   var tabList = document.createElement('div');
-  tabList.id = 'tab-list';
+  tabList.id = 'tab-list-' + tabs.toString();
   tabDiv.appendChild(tabList);
 
   var tuning = {
@@ -98,15 +99,15 @@ function init(guitarStrings) {
   // Move ACROSS the tablature
   for (var cell = 0; cell <= 0; cell++) {
 
-    var cellColumnID = 'column_' + cell;
+    var cellColumnID = 'column_' + cell + '-' + tabs.toString();
     var column = document.createElement('ul');
-    column.id = 'tuning-list';
-    column.className = 'tuning-column';
+    column.id = 'tuning-list' + '-' + tabs.toString();
+    column.className = 'tuning-column tuning-list';
 
     // Move DOWN the tablature
     for (var string = 1; string <= guitarStrings; string++) {
 
-      var matrixID = cell + 'x' + string;
+      var matrixID = cell + 'x' + string + '-' + tabs.toString();
       var cellID = 'cell_' + matrixID;
 
       var item = document.createElement('li');
@@ -129,8 +130,8 @@ function init(guitarStrings) {
 
   // For all user input
   var inputList = document.createElement('ul');
-  inputList.id = 'input-list';
-  // inputList.className = 'columns';
+  inputList.id = 'input-list' + '-' + tabs.toString();
+  inputList.className = 'input-list';
   makeSelectable(inputList);
   tabList.appendChild(inputList);
 
@@ -141,11 +142,11 @@ function init(guitarStrings) {
     // Move ACROSS the tablature
     for (var cell = 1; cell <= totalCells; cell++) {
 
-      var cellColumnID = 'column_' + cell;
+      var cellColumnID = 'column_' + cell + '-' + tabs.toString();
       var column = document.createElement('ul');
       column.id = cellColumnID;
 
-      var matrixID = cell + 'x' + string;
+      var matrixID = cell + 'x' + string + '-' + tabs.toString();
       var cellID = 'cell_' + matrixID;
 
       var item = document.createElement('li');
@@ -327,16 +328,44 @@ function drawLine(canvas) {
 */
 function addMeasure() {
   var tabsList = document.getElementById('measure-headers-list');
+
   var item = document.createElement('li');
+
   tabs = tabs + 1;
-  item.id = 'tab-item-' + tabs.toString();
+
+  item.id = 'measure-item-' + tabs.toString();
   tabsList.appendChild(item);
 
   var div = document.createElement('div');
-  div.id = 'tab-div-' + tabs.toString();
+  div.id = 'measure-div-' + tabs.toString();
   div.title = 'Measure ' + tabs.toString();
   div.innerHTML = 'Measure ' + tabs.toString();
+  div.addEventListener('click', function (event) {
+    activateMeasure(div.id.replace('measure-div-',''));
+  }, true);
   item.appendChild(div);
+
+  init(guitarStrings);
+
+  activateMeasure(tabs);
+}
+
+/**
+* Make the measure activate and visible.
+*/
+function activateMeasure(tabID) {
+  console.debug(visibleTab + '->' + tabID.toString());
+
+  var currentTab = visibleTab;
+//
+  visibleTab = tabID;
+  var tabDiv = document.getElementById('tab-div-'+visibleTab.toString());
+
+  if(currentTab !== 0){
+    console.debug('Disable: '+currentTab);
+    document.getElementById('tab-div-'+currentTab).setAttribute('style', 'display: none;');
+  }
+  tabDiv.setAttribute('style', 'display: inherit;');
 }
 
 // Apply the jQuery selectability to an element.

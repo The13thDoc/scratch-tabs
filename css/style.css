@@ -50,7 +50,7 @@ Tabs for each measure/riff
 	color:#333;
 }
 
-#tab-div {
+.tab-div {
 	margin: 20px;
 	border-width: 1px;
 	border-top-width: 2px;
@@ -66,7 +66,7 @@ Tablature
 	margin: 0 0 0 0;
 }
 
-#tuning-list li {
+.tuning-list li {
 
 }
 
@@ -98,7 +98,7 @@ Tablature cells
 	border: none;
 }
 
-#input-list {
+.input-list {
 	float: left;
 	list-style-type: none;
 	margin: 0;
@@ -106,7 +106,7 @@ Tablature cells
 	width: 200px;
 }
 
-#input-list li {
+.input-list li {
 	width: 20px;
 	height: 20px;
 	text-align: center;
@@ -118,18 +118,18 @@ Tablature cells
 	/*margin: 0 -3px 0 0;*/
 }
 
-#input-list .input-cell:hover {
+.input-list .input-cell:hover {
 	background: orchid;
 }
 
-#input-list .ui-selecting {
+.input-list .ui-selecting {
 	background: orange;
 }
 
-#input-list .ui-selected {
+.input-list .ui-selected {
 	background: orange;
 }
 
-#input-list .ui-selected:hover {
+.input-list .ui-selected:hover {
 	background: orangered;
 }
