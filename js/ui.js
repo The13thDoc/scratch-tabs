@@ -3,16 +3,22 @@
 var guitarStrings = 6;
 var maxFrets = 24;
 var totalCells = 36; // number of columns, or 'frets'
+var tabs = 0;
 var selected = [];
 var userInput = '';
 
+/*
+* On load
+*/
 window.onload = function (){
   init(guitarStrings);
+  addMeasure();
 
+  var addNewMeasure = document.getElementById('add-measure');
+  addNewMeasure.addEventListener('click', function (event) {
+    addMeasure();
+  }, true);
 
-  /*
-  * On load
-  */
   document.addEventListener('keyup', function (event) {
     var key = event.keyCode;
     var char;
@@ -316,6 +322,23 @@ function drawLine(canvas) {
   canvas.fillRect(0, 10, 20, 1);
 }
 
+/**
+* Append a new measure to the current list.
+*/
+function addMeasure() {
+  var tabsList = document.getElementById('measure-headers-list');
+  var item = document.createElement('li');
+  tabs = tabs + 1;
+  item.id = 'tab-item-' + tabs.toString();
+  tabsList.appendChild(item);
+
+  var div = document.createElement('div');
+  div.id = 'tab-div-' + tabs.toString();
+  div.title = 'Measure ' + tabs.toString();
+  div.innerHTML = 'Measure ' + tabs.toString();
+  item.appendChild(div);
+}
+
 // Apply the jQuery selectability to an element.
 function makeSelectable(e) {
   $(e).selectable({
@@ -335,4 +358,4 @@ function makeSelectable(e) {
       console.log(selected);
     }
   });
-};
+}
