@@ -1,6 +1,6 @@
 scratch-tabs
 =======
-Scratch-tabs is a guitar tablature writer focused on providing an *easy* and *quick* interface. Easily jot down your guitar riff wherever inspiration strikes. 
+Scratch-tabs is a **guitar tablature writer** focused on providing a quick and easy interface. Jot down your guitar riff wherever inspiration strikes.
 
 This is a work in progress based on the [ram-tabs](https://github.com/The13thDoc/ram-tabs) project.
 
