@@ -133,3 +133,7 @@ Tablature cells
 .input-list .ui-selected:hover {
 	background: orangered;
 }
+
+.quick-reference {
+	margin: 20px;
+}
