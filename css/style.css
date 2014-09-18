@@ -56,11 +56,26 @@ Tabs for each measure/riff
 	border-top-width: 2px;
 }
 
-.columns {
-	-webkit-column-count: 11;
-	/* -moz-column-count: 10; */
-	/* column-count: 10; */
+/*
+Tablature
+*/
+
+.tuning-column {
+	width: 15px;
 }
+
+.tuning-cell {
+	list-style-type: none;
+	border: solid;
+	border-width: 0px 2px 0px 0px;
+}
+
+/*
+.columns {
+-webkit-column-count: 11;
+/* -moz-column-count: 10; */
+/* column-count: 10; */
+}*/
 
 .float-left {
 	float: left;
@@ -77,23 +92,37 @@ Tablature cells
 	border: none;
 }
 
-.tuning-cell {
-	border: solid;
-	border-width: 0px 2px 0px 0px;
+#input-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 200px;
 }
 
-.input-cell:hover {
+#input-list li {
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	border: none;
+	background: #ffffff;
+
+	display: inline-block;
+	float: none;
+	/*margin: 0 -3px 0 0;*/
+}
+
+#input-list .input-cell:hover {
 	background: orchid;
 }
 
-.ui-selecting {
+#input-list .ui-selecting {
 	background: orange;
 }
 
-.ui-selected {
+#input-list .ui-selected {
 	background: orange;
 }
 
-.ui-selected:hover {
+#input-list .ui-selected:hover {
 	background: orangered;
 }

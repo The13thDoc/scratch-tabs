@@ -1,6 +1,8 @@
 // On Load
 //window.focus();
 var guitarStrings = 6;
+var maxFrets = 24;
+var totalCells = 36; // number of columns, or 'frets'
 var selected = [];
 var userInput = '';
 
@@ -14,7 +16,6 @@ window.onload = function (){
   document.addEventListener('keyup', function (event) {
     var key = event.keyCode;
     var char;
-    var maxFrets = 24;
 
     // INPUT mode
     if (selected.length != 0) {
@@ -67,8 +68,6 @@ function init(guitarStrings) {
   // Let's create lists here.
   // Replicate a spreadhsheet look
 
-  var totalCells = 10; // number of columns, or 'frets'
-
   var tabDiv = document.createElement('div');
   tabDiv.id = 'tab-div';
 
@@ -76,21 +75,23 @@ function init(guitarStrings) {
   tabList.id = 'tab-list';
   tabDiv.appendChild(tabList);
 
-  // For all user input
-  var inputList = document.createElement('ul');
-  inputList.id = 'input-list';
-  inputList.className = 'columns';
-  makeSelectable(inputList);
+  var tuning = {
+    '1': 'E',
+    '2': 'B',
+    '3': 'G',
+    '4': 'D',
+    '5': 'A',
+    '6': 'E',
+  }
 
-  tabList.appendChild(inputList);
-
+  // Create the tuning column
   // Move ACROSS the tablature
-  for (var cell = 0; cell <= totalCells; cell++) {
+  for (var cell = 0; cell <= 0; cell++) {
 
     var cellColumnID = 'column_' + cell;
     var column = document.createElement('ul');
     column.id = cellColumnID;
-    column.className = 'float-left';
+    column.className = 'tuning-column';
 
     // Move DOWN the tablature
     for (var string = 1; string <= guitarStrings; string++) {
@@ -101,42 +102,60 @@ function init(guitarStrings) {
       var item = document.createElement('li');
       item.id = cellID;
 
-      var tuning = {
-        '1': 'E',
-        '2': 'B',
-        '3': 'G',
-        '4': 'D',
-        '5': 'A',
-        '6': 'E',
-      }
+      // Write the tuning
+      item.innerHTML = tuning[string];
+      item.className = 'cell tuning-cell';
 
-      if (cell === 0) { // Write the tuning
-        item.innerHTML = tuning[string];
-        item.className = 'cell tuning-cell';
+      column.appendChild(item);
+    }
+    tabList.appendChild(column);
+  }
 
-      } else { // Write the cells
 
-        var canvasElement = getNewCanvas(matrixID);
+  // For all user input
+  var inputList = document.createElement('ul');
+  inputList.id = 'input-list';
+  // inputList.className = 'columns';
+  makeSelectable(inputList);
 
-        // front
-        item.className = 'cell input-cell ui-state-default';
-        item.appendChild(canvasElement);
-      }
+  // Create the rest
+  // Move DOWN the tablature
+  for (var string = 1; string <= guitarStrings; string++) {
+
+    // Move ACROSS the tablature
+    for (var cell = 1; cell <= totalCells; cell++) {
+
+      var cellColumnID = 'column_' + cell;
+      var column = document.createElement('ul');
+      column.id = cellColumnID;
+
+      var matrixID = cell + 'x' + string;
+      var cellID = 'cell_' + matrixID;
+
+      var item = document.createElement('li');
+      item.id = cellID;
+
+      // Write the cells
+      var canvasElement = getNewCanvas(matrixID);
+
+      // front
+      item.className = 'input-cell ui-state-default';
+      item.appendChild(canvasElement);
+
       column.appendChild(item);
 
-
-      if (cell !== 0) {
-        inputList.appendChild(item);
-      }
-    }
-    if (cell === 0) {
-      tabList.insertBefore(column, inputList);
+      inputList.appendChild(item);
     }
   }
-  var width = 20 * (totalCells + 1) + 2;
+  tabList.appendChild(inputList);
+
+  // Finished creating the tablature cells.
+
+
+  var width = 20 * (totalCells);
 
   var content = document.getElementById('measure-content');
-  //tabDiv.setAttribute('style', 'width:' + width + 'px;');
+  inputList.setAttribute('style', 'width:' + width + 'px;');
   content.appendChild(tabDiv);
 }
 
