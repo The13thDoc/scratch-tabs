@@ -3,7 +3,7 @@
  */
 
 import 'dart:html';
-//import 'dart:js';
+import 'dart:js' as js;
 
 var guitarStrings = 6;
 var selected = [];
@@ -35,8 +35,8 @@ void init(guitarStrings) {
   var inputList = new Element.tag('ul');
   inputList.id = 'input-list';
   inputList.className = 'columns';
-  // makeSelectable(inputList);
-
+  makeSelectable(inputList);
+  
   tabList.append(inputList);
 
   // Move ACROSS the tablature
@@ -203,4 +203,28 @@ void drawLine(canvas) {
   // paint black line
   canvas.fillStyle = "#000000";
   canvas.fillRect(0, 10, 20, 1);
+}
+
+/// Apply the jQuery selectability to an element.
+void makeSelectable(Element e) {
+  js.context..callMethod(r'$', [e])
+      ..callMethod('selectable', [new js.JsObject.jsify({'stop': 'function () {}'})]);
+  
+//  $(e).selectable({
+//    stop: function () {
+//      if (!e.ctrlKey) {
+//        selected = [];
+//      }
+//      // var result = $("#select-result").empty();
+//      $(".ui-selected", this).each(function (index) {
+//        // only get the CELLS
+//        var id = $(this).attr('id');
+//        if (id.indexOf('cell') > -1) {
+//          // execute acton here
+//          selected.push(id);
+//        }
+//      });
+//      console.log(selected);
+//    }
+//  });
 }
