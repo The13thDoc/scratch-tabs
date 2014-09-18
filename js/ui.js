@@ -335,14 +335,15 @@ function addMeasure() {
 
   item.id = 'measure-item-' + tabs.toString();
   tabsList.appendChild(item);
+  item.addEventListener('click', function (event) {
+    activateMeasure(div.id.replace('measure-div-',''));
+  }, true);
 
   var div = document.createElement('div');
   div.id = 'measure-div-' + tabs.toString();
   div.title = 'Measure ' + tabs.toString();
   div.innerHTML = 'Measure ' + tabs.toString();
-  div.addEventListener('click', function (event) {
-    activateMeasure(div.id.replace('measure-div-',''));
-  }, true);
+
   item.appendChild(div);
 
   init(guitarStrings);
@@ -360,12 +361,18 @@ function activateMeasure(tabID) {
 //
   visibleTab = tabID;
   var tabDiv = document.getElementById('tab-div-'+visibleTab.toString());
+  var measureItemSelect = document.getElementById('measure-item-'+visibleTab.toString());
+
 
   if(currentTab !== 0){
     console.debug('Disable: '+currentTab);
+    var measureItemUnselect = document.getElementById('measure-item-'+currentTab.toString());
     document.getElementById('tab-div-'+currentTab).setAttribute('style', 'display: none;');
+    measureItemUnselect.setAttribute('style', 'background: #C9C9C9;');
   }
   tabDiv.setAttribute('style', 'display: inherit;');
+  measureItemSelect.setAttribute('style', 'background: orange;');
+
 }
 
 // Apply the jQuery selectability to an element.

@@ -41,7 +41,7 @@ Tabs for each measure/riff
 }
 
 #measure-headers > ul > li:hover{
-	background: #FFFFFF; /* old browsers */
+	background: orchid; /* old browsers */
 	cursor:pointer;
 	color: #333;
 }
