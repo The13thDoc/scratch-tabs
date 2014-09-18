@@ -67,9 +67,13 @@ window.onload = function (){
 function init(guitarStrings) {
   // Let's create lists here.
   // Replicate a spreadhsheet look
+  var content = document.getElementById('measure-content');
+  content.setAttribute('style', 'overflow: auto;');
 
   var tabDiv = document.createElement('div');
   tabDiv.id = 'tab-div';
+  // tabDiv.setAttribute('style', 'overflow: scroll;');
+  content.appendChild(tabDiv);
 
   var tabList = document.createElement('div');
   tabList.id = 'tab-list';
@@ -101,14 +105,19 @@ function init(guitarStrings) {
 
       var item = document.createElement('li');
       item.id = cellID;
-
       // Write the tuning
-      item.innerHTML = tuning[string];
+      // item.innerHTML = tuning[string];
       item.className = 'cell tuning-cell';
 
+      // Write the cells
+      var canvasElement = getNewCanvas(matrixID);
+
+      item.appendChild(canvasElement);
       column.appendChild(item);
+      tabList.appendChild(column);
+
+      writeToBlankCanvas(matrixID, tuning[string]);
     }
-    tabList.appendChild(column);
   }
 
 
@@ -117,6 +126,7 @@ function init(guitarStrings) {
   inputList.id = 'input-list';
   // inputList.className = 'columns';
   makeSelectable(inputList);
+  tabList.appendChild(inputList);
 
   // Create the rest
   // Move DOWN the tablature
@@ -147,16 +157,12 @@ function init(guitarStrings) {
       inputList.appendChild(item);
     }
   }
-  tabList.appendChild(inputList);
 
   // Finished creating the tablature cells.
 
 
   var width = 20 * (totalCells);
-
-  var content = document.getElementById('measure-content');
   inputList.setAttribute('style', 'width:' + width + 'px;');
-  content.appendChild(tabDiv);
 }
 
 /**
@@ -170,6 +176,20 @@ function getNewCanvas(id) {
 
   var canvas = canvasElement.getContext("2d");
   drawLine(canvas);
+
+  return canvasElement;
+}
+
+/**
+* Returns a new canvas element with the default drawing.
+*/
+function getNewBlankCanvas(id) {
+  var canvasElement = document.createElement('canvas');
+  canvasElement.id = 'canvas_' + id;
+  canvasElement.width = '20';
+  canvasElement.height = '20';
+
+  var canvas = canvasElement.getContext("2d");
 
   return canvasElement;
 }
@@ -221,6 +241,28 @@ function writeToCanvas(id, text) {
   var cell = document.getElementById('cell_' + id);
 
   var canvasElement = getNewCanvas(id);
+  var canvas = canvasElement.getContext("2d");
+  var x = canvasElement.width / 2;
+  var y = canvasElement.height / 2;
+  // draw text
+  canvas.font = '10pt Arial';
+  canvas.textAlign = 'center';
+  canvas.textBaseline = 'middle';
+  canvas.strokeText(text, x, y);
+
+  // remove current canvas
+  cell.removeChild(cell.lastChild);
+  // add new canvas
+  cell.appendChild(canvasElement);
+}
+
+/**
+* Draw user input to blank canvas cell.
+*/
+function writeToBlankCanvas(id, text) {
+  var cell = document.getElementById('cell_' + id);
+
+  var canvasElement = getNewBlankCanvas(id);
   var canvas = canvasElement.getContext("2d");
   var x = canvasElement.width / 2;
   var y = canvasElement.height / 2;

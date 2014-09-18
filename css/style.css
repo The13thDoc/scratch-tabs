@@ -62,11 +62,12 @@ Tablature
 
 .tuning-column {
 	float: left;
-	width: 15px;
+	/*width: 15px;*/
+	margin: 0 0 0 0;
 }
 
 #tuning-list li {
-	
+
 }
 
 .tuning-cell {
