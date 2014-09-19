@@ -36,8 +36,12 @@
 			<!-- Only need one of these. Content will be switched out as measure headers are selected from the list. -->
 			<div id='measure-content'></div>
 			<br>
-			<div id='ascii-div' class='ascii'>
-				<textarea id='ascii-text' type='text' class='ascii'></textarea>
+			<div id='ascii-div'>
+				<input id='toggle-ascii' type='button' value='Toggle ASCII'
+				title='Toggle ASCII text'/>
+				<div class='clear'></div>
+				<textarea id='ascii-text' type='text' class='ascii' readonly hidden>
+				</textarea>
 			</div>
 		</div>
 	</div>

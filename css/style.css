@@ -139,6 +139,9 @@ Tablature cells
 }
 
 .ascii {
-	width: 1000px;
-	height: 500px;
+	width: 900px;
+	height: 239px;
+	margin-left: 63px;
+	overflow: auto;
+	font-size: medium;
 }

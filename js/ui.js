@@ -9,6 +9,8 @@ var selected = [];
 var savedInput = {};
 var userInput = '';
 
+var asciiVisible = 'false';
+
 /*
 * On load
 */
@@ -18,6 +20,19 @@ window.onload = function (){
   var addNewMeasure = document.getElementById('add-measure');
   addNewMeasure.addEventListener('click', function (event) {
     addMeasure();
+  }, true);
+
+  var toggleASCII = document.getElementById('toggle-ascii');
+  toggleASCII.addEventListener('click', function (event) {
+    var asciiText = document.getElementById('ascii-text');
+
+    if(asciiVisible === 'true') {
+      asciiText.setAttribute('style', 'display: none;');
+      asciiVisible = 'false';
+    } else {
+      asciiText.setAttribute('style', 'display: inherit;');
+      asciiVisible = 'true';
+    }
   }, true);
 
   document.addEventListener('keyup', function (event) {
@@ -125,7 +140,7 @@ function init(guitarStrings) {
       tabList.appendChild(column);
 
       writeToBlankCanvas(matrixID, tuning[string]);
-      savedInput[matrixID] = tuning[string];
+      savedInput[matrixID] = tuning[string]+ "|";
     }
   }
 
@@ -156,7 +171,7 @@ function init(guitarStrings) {
 
       // Write the cells
       var canvasElement = getNewCanvas(matrixID);
-      savedInput[matrixID] = '---';
+      savedInput[matrixID] = '--';
 
       // front
       item.className = 'input-cell ui-state-default';
@@ -277,6 +292,7 @@ function write(id, text, canvas) {
   cell.removeChild(cell.lastChild);
   // add new canvas
   cell.appendChild(canvasElement);
+  writeASCII();
 }
 
 function unselectAll() {
@@ -344,8 +360,6 @@ function addMeasure() {
   init(guitarStrings);
 
   activateMeasure(tabs);
-
-  writeASCII();
 }
 
 /**
@@ -402,8 +416,8 @@ function writeASCII() {
 * Compile and return saved JSON data as a string.
 */
 function compileASCII() {
-  var ascii;
-  var data;
+  var ascii = '';
+  var data = '';
   var cellID;
 
   // Move through each measure
@@ -413,11 +427,16 @@ function compileASCII() {
     for (var string = 1; string <= guitarStrings; string++) {
 
       // Move ACROSS the tablature
-      for (var cell = 1; cell <= totalCells; cell++) {
+      for (var cell = 0; cell <= totalCells; cell++) {
 
         cellID = cell + 'x' + string + '-' + measure;
         data = savedInput[cellID];
-        ascii = ascii + data;
+
+        if(cell > 0){
+          ascii = ascii + '-' + data;
+        } else {
+          ascii = ascii + data;
+        }
 
         // console.debug('ascii', cellID);
         // console.debug('ascii', data);
