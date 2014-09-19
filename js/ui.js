@@ -10,6 +10,7 @@ var savedInput = {};
 var userInput = '';
 
 var asciiVisible = 'false';
+var isInitializing = 'false';
 
 /*
 * On load
@@ -87,6 +88,7 @@ window.onload = function (){
 
 // Initialize the UI
 function init(guitarStrings) {
+  isInitializing = 'true';
   // Let's create lists here.
   // Replicate a spreadhsheet look
   var content = document.getElementById('measure-content');
@@ -135,12 +137,12 @@ function init(guitarStrings) {
       // Write the cells
       var canvasElement = getNewCanvas(matrixID);
 
+
       item.appendChild(canvasElement);
       column.appendChild(item);
       tabList.appendChild(column);
 
       writeToBlankCanvas(matrixID, tuning[string]);
-      savedInput[matrixID] = tuning[string]+ "|";
     }
   }
 
@@ -187,6 +189,9 @@ function init(guitarStrings) {
 
   var width = 20 * (totalCells);
   inputList.setAttribute('style', 'width:' + width + 'px;');
+
+  writeASCII();
+  isInitializing = 'false';
 }
 
 /**
@@ -292,7 +297,10 @@ function write(id, text, canvas) {
   cell.removeChild(cell.lastChild);
   // add new canvas
   cell.appendChild(canvasElement);
-  writeASCII();
+
+  if(isInitializing === 'false') {
+    writeASCII();
+  }
 }
 
 function unselectAll() {
@@ -437,10 +445,10 @@ function compileASCII() {
           data = savedInput[cellID];
         }
 
-        if(cell > 0){
-          ascii = ascii + '-' + data;
+        if(cell === 0){
+          ascii = ascii + data + "|";
         } else {
-          ascii = ascii + data;
+          ascii = ascii + '-' + data;
         }
 
         // console.debug('ascii', cellID);
