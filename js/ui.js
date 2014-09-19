@@ -430,7 +430,12 @@ function compileASCII() {
       for (var cell = 0; cell <= totalCells; cell++) {
 
         cellID = cell + 'x' + string + '-' + measure;
-        data = savedInput[cellID];
+
+        if(!savedInput[cellID]) {
+          data = '';
+        } else {
+          data = savedInput[cellID];
+        }
 
         if(cell > 0){
           ascii = ascii + '-' + data;
