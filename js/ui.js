@@ -6,6 +6,7 @@ var totalCells = 36; // number of columns, or 'frets'
 var tabs = 0;
 var visibleTab = 0;
 var selected = [];
+var savedInput = {};
 var userInput = '';
 
 /*
@@ -124,6 +125,7 @@ function init(guitarStrings) {
       tabList.appendChild(column);
 
       writeToBlankCanvas(matrixID, tuning[string]);
+      savedInput[matrixID] = tuning[string];
     }
   }
 
@@ -135,7 +137,7 @@ function init(guitarStrings) {
   makeSelectable(inputList);
   tabList.appendChild(inputList);
 
-  // Create the rest
+  // Create the input columns
   // Move DOWN the tablature
   for (var string = 1; string <= guitarStrings; string++) {
 
@@ -154,6 +156,7 @@ function init(guitarStrings) {
 
       // Write the cells
       var canvasElement = getNewCanvas(matrixID);
+      savedInput[matrixID] = '---';
 
       // front
       item.className = 'input-cell ui-state-default';
@@ -166,7 +169,6 @@ function init(guitarStrings) {
   }
 
   // Finished creating the tablature cells.
-
 
   var width = 20 * (totalCells);
   inputList.setAttribute('style', 'width:' + width + 'px;');
@@ -242,34 +244,24 @@ function writeAll(userInput) {
 }
 
 /**
-* Draw user input to canvas cell.
+* Draw user input to canvas cell in the tablature,
+* with the black line on the canvas.
 */
 function writeToCanvas(id, text) {
-  var cell = document.getElementById('cell_' + id);
-
-  var canvasElement = getNewCanvas(id);
-  var canvas = canvasElement.getContext("2d");
-  var x = canvasElement.width / 2;
-  var y = canvasElement.height / 2;
-  // draw text
-  canvas.font = '10pt Arial';
-  canvas.textAlign = 'center';
-  canvas.textBaseline = 'middle';
-  canvas.strokeText(text, x, y);
-
-  // remove current canvas
-  cell.removeChild(cell.lastChild);
-  // add new canvas
-  cell.appendChild(canvasElement);
+  write(id, text, getNewCanvas(id));
 }
 
 /**
-* Draw user input to blank canvas cell.
+* Draw to a blank canvas.
 */
 function writeToBlankCanvas(id, text) {
+  write(id, text, getNewBlankCanvas(id));
+}
+
+function write(id, text, canvas) {
   var cell = document.getElementById('cell_' + id);
 
-  var canvasElement = getNewBlankCanvas(id);
+  var canvasElement = canvas;
   var canvas = canvasElement.getContext("2d");
   var x = canvasElement.width / 2;
   var y = canvasElement.height / 2;
@@ -278,6 +270,8 @@ function writeToBlankCanvas(id, text) {
   canvas.textAlign = 'center';
   canvas.textBaseline = 'middle';
   canvas.strokeText(text, x, y);
+
+  savedInput[id] = text;
 
   // remove current canvas
   cell.removeChild(cell.lastChild);
@@ -311,6 +305,7 @@ function clearCanvas(id) {
   cell.removeChild(cell.lastChild);
 
   var canvasElement = getNewCanvas(id);
+  savedInput[id] = '';
 
   // add new canvas element to cell
   cell.appendChild(canvasElement);
@@ -349,23 +344,22 @@ function addMeasure() {
   init(guitarStrings);
 
   activateMeasure(tabs);
+
+  writeASCII();
 }
 
 /**
 * Make the measure activate and visible.
 */
 function activateMeasure(tabID) {
-  console.debug(visibleTab + '->' + tabID.toString());
-
   var currentTab = visibleTab;
-//
+  //
   visibleTab = tabID;
   var tabDiv = document.getElementById('tab-div-'+visibleTab.toString());
   var measureItemSelect = document.getElementById('measure-item-'+visibleTab.toString());
 
 
   if(currentTab !== 0){
-    console.debug('Disable: '+currentTab);
     var measureItemUnselect = document.getElementById('measure-item-'+currentTab.toString());
     document.getElementById('tab-div-'+currentTab).setAttribute('style', 'display: none;');
     measureItemUnselect.setAttribute('style', 'background: #C9C9C9;');
@@ -394,4 +388,44 @@ function makeSelectable(e) {
       console.log(selected);
     }
   });
+}
+
+/**
+* Write saved JSON data to a text field.
+*/
+function writeASCII() {
+  var asciiText = document.getElementById('ascii-text');
+  asciiText.innerHTML = compileASCII();
+}
+
+/**
+* Compile and return saved JSON data as a string.
+*/
+function compileASCII() {
+  var ascii;
+  var data;
+  var cellID;
+
+  // Move through each measure
+  for (var measure = 1; measure <= tabs; measure++) {
+
+    // Move DOWN the tablature
+    for (var string = 1; string <= guitarStrings; string++) {
+
+      // Move ACROSS the tablature
+      for (var cell = 1; cell <= totalCells; cell++) {
+
+        cellID = cell + 'x' + string + '-' + measure;
+        data = savedInput[cellID];
+        ascii = ascii + data;
+
+        // console.debug('ascii', cellID);
+        // console.debug('ascii', data);
+      }
+      ascii = ascii + '\n'; // new line for next string
+    }
+    ascii = ascii + '\n\n'; // two new lines for next measure
+  }
+  // console.debug('ascii\n', ascii);
+  return ascii;
 }
