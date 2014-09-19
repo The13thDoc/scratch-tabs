@@ -303,14 +303,23 @@ function write(id, text, canvas) {
   }
 }
 
+/**
+* Unselect any selected cells.
+*/
 function unselectAll() {
   console.log('input', 'UNSELECT');
   for (var i = 0; i < selected.length; i++) {
     var cell = document.getElementById(selected[i]);
-    cell.classList.remove('ui-selected');
+    // console.debug(cell);
+    cell.classList.remove('unselect', 'ui-selected');
   }
+  selected = [];
+  // console.debug('unselect', selected.length);
 }
 
+/**
+* Clear any selected cells.
+*/
 function clearAll() {
   console.log('input', 'ERASE');
   for (var i = 0; i < selected.length; i++) {
@@ -389,6 +398,7 @@ function activateMeasure(tabID) {
   tabDiv.setAttribute('style', 'display: inherit;');
   measureItemSelect.setAttribute('style', 'background: orange;');
 
+  unselectAll();
 }
 
 // Apply the jQuery selectability to an element.
