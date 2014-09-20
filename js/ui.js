@@ -109,7 +109,6 @@ function init(guitarStrings) {
   var tabDiv = document.createElement('div');
   tabDiv.id = 'tab-div-' + tabs.toString();
   tabDiv.className = 'tab-div';
-  // tabDiv.setAttribute('style', 'overflow: scroll;');
   content.appendChild(tabDiv);
 
   var tabList = document.createElement('div');
