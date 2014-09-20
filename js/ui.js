@@ -39,7 +39,12 @@ window.onload = function (){
 
   var incrementMeasure = document.getElementById('increment');
   incrementMeasure.addEventListener('click', function (event) {
-    appendInputColumn();
+    extendMeasure();
+  }, true);
+
+  var decrementMeasure = document.getElementById('decrement');
+  decrementMeasure.addEventListener('click', function (event) {
+    shrinkMeasure();
   }, true);
 
   document.addEventListener('keyup', function (event) {
@@ -195,9 +200,37 @@ function init(guitarStrings) {
 }
 
 /**
+* Remove the last column (fret) from the tablature.
+*/
+function shrinkMeasure() {
+  // console.debug('measure', 'Remove last column');
+  // For all user input
+  var inputList = document.getElementById('input-list' + '-' + visibleTab.toString());
+  var last = totalCells[visibleTab];
+  var decremented = last - 1;
+
+  // Move DOWN the tablature
+  for (var string = 1; string <= guitarStrings; string++) {
+    var matrixID = last + 'x' + string + '-' + visibleTab.toString();
+    var cellID = 'cell_' + matrixID;
+
+    var item = document.getElementById(cellID);
+    // console.debug('measure', item);
+    inputList.removeChild(item);
+  }
+
+  // Now, increment the total number of cells by 1.
+  totalCells[visibleTab] = decremented;
+
+  updateWidth(totalCells[visibleTab], inputList);
+
+  writeASCII();
+}
+
+/**
 * Append another column (fret) of input to the tablature.
 */
-function appendInputColumn() {
+function extendMeasure() {
   // For all user input
   var inputList = document.getElementById('input-list' + '-' + visibleTab.toString());
   var incremented = (totalCells[visibleTab] + 1);
@@ -223,8 +256,8 @@ function appendInputColumn() {
       item.appendChild(canvasElement);
 
       var referenceString = string + 1; // String following current one.
-      var referenceElement =
-      document.getElementById('cell_1' + 'x' + referenceString + '-' + visibleTab.toString());
+      var referenceElement = document.getElementById('cell_1' + 'x' +
+      referenceString + '-' + visibleTab.toString());
 
       if (string < 6) {
         inputList.insertBefore(item, referenceElement);
@@ -241,7 +274,6 @@ function appendInputColumn() {
   updateWidth(totalCells[visibleTab], inputList);
 
   writeASCII();
-  isInitializing = 'false';
 }
 
 /**
