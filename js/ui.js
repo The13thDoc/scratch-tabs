@@ -9,6 +9,7 @@ var visibleTab = 0;
 var selected = [];
 var savedInput = {};
 var userInput = '';
+var defaultEmpty = '--';
 
 var asciiVisible = 'false';
 var isInitializing = 'false';
@@ -179,7 +180,7 @@ function init(guitarStrings) {
 
       // Write the cells
       var canvasElement = getNewCanvas(matrixID);
-      savedInput[matrixID] = '--';
+      savedInput[matrixID] = defaultEmpty;
 
       // front
       item.className = 'input-cell ui-state-default';
@@ -216,6 +217,7 @@ function shrinkMeasure() {
 
     var item = document.getElementById(cellID);
     // console.debug('measure', item);
+    delete savedInput[matrixID];
     inputList.removeChild(item);
   }
 
@@ -249,7 +251,7 @@ function extendMeasure() {
 
       // Write the cells
       var canvasElement = getNewCanvas(matrixID);
-      savedInput[matrixID] = '--';
+      savedInput[matrixID] = defaultEmpty;
 
       // front
       item.className = 'input-cell ui-state-default';
@@ -431,7 +433,7 @@ function clearCanvas(id) {
   cell.removeChild(cell.lastChild);
 
   var canvasElement = getNewCanvas(id);
-  savedInput[id] = '';
+  savedInput[id] = defaultEmpty;
 
   // add new canvas element to cell
   cell.appendChild(canvasElement);
@@ -541,7 +543,7 @@ function compileASCII() {
     for (var string = 1; string <= guitarStrings; string++) {
 
       // Move ACROSS the tablature
-      for (var cell = 0; cell <= totalCells[tabs]; cell++) {
+      for (var cell = 0; cell <= totalCells[measure]; cell++) {
 
         cellID = cell + 'x' + string + '-' + measure;
 
