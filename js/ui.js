@@ -2,7 +2,8 @@
 //window.focus();
 var guitarStrings = 6;
 var maxFrets = 24;
-var totalCells = 36; // number of columns, or 'frets'
+var startCells = 36;
+var totalCells = {1:36}; // number of columns, or 'frets'
 var tabs = 0;
 var visibleTab = 0;
 var selected = [];
@@ -164,7 +165,7 @@ function init(guitarStrings) {
   for (var string = 1; string <= guitarStrings; string++) {
 
     // Move ACROSS the tablature
-    for (var cell = 1; cell <= totalCells; cell++) {
+    for (var cell = 1; cell <= totalCells[tabs]; cell++) {
       var matrixID = cell + 'x' + string + '-' + tabs.toString();
       var cellID = 'cell_' + matrixID;
 
@@ -185,11 +186,11 @@ function init(guitarStrings) {
 
   // Finished creating the tablature cells.
 
-  var width = 20 * (totalCells);
+  var width = 20 * (totalCells[tabs]);
   inputList.setAttribute('style', 'width:' + width + 'px;');
 
   var available = document.getElementById('columns-available');
-  available.innerHTML = totalCells;
+  available.innerHTML = totalCells[tabs];
 
   writeASCII();
   isInitializing = 'false';
@@ -202,8 +203,8 @@ function appendInputColumn() {
   console.debug('measure', 'append measure');
   // For all user input
   var inputList = document.getElementById('input-list' + '-' + tabs.toString());
-  var incremented = (totalCells + 1);
-  // console.debug('measure', 'Curent: ' + totalCells);
+  var incremented = (totalCells[tabs] + 1);
+  // console.debug('measure', 'Curent: ' + totalCells[tabs]);
   // console.debug('measure', 'Raise to: ' + incremented);
 
   // Create the input columns
@@ -211,7 +212,7 @@ function appendInputColumn() {
   for (var string = 1; string <= guitarStrings; string++) {
     // console.debug('measure', 'String: ', string);
 
-  //   // Move ACROSS the tablature
+    //   // Move ACROSS the tablature
     for (var cell = incremented; cell <= incremented; cell++) {
       console.debug('measure', 'Increment to ' + incremented);
       var matrixID = cell + 'x' + string + '-' + tabs.toString();
@@ -228,20 +229,31 @@ function appendInputColumn() {
       item.className = 'input-cell ui-state-default';
       item.appendChild(canvasElement);
 
-      inputList.appendChild(item);
+
+      // var previousCell = (cell - 2);
+      var referenceString = string + 1; // String following current one.
+      var referenceElement =
+      document.getElementById('cell_1' + 'x' + referenceString + '-' + tabs.toString());
+
+      if (string < 6) {
+        inputList.insertBefore(item, referenceElement);
+      } else {
+        // console.debug('measure', 'Insert (' + item.id + ') before: (' + referenceElement.id + ')');
+        inputList.appendChild(item);
+      }
     }
   }
   console.debug('measure', 'done');
   // Now, increment the total number of cells by 1.
-  totalCells = incremented;
+  totalCells[tabs] = incremented;
 
   // Finished creating the tablature cells.
 
-  var width = 20 * (totalCells);
+  var width = 20 * (totalCells[tabs]);
   inputList.setAttribute('style', 'width:' + width + 'px;');
 
   var available = document.getElementById('columns-available');
-  available.innerHTML = totalCells;
+  available.innerHTML = totalCells[tabs];
 
   writeASCII();
   isInitializing = 'false';
@@ -413,6 +425,7 @@ function addMeasure() {
   var item = document.createElement('li');
 
   tabs = tabs + 1;
+  totalCells[tabs] = startCells;
 
   item.id = 'measure-item-' + tabs.toString();
   tabsList.appendChild(item);
@@ -450,6 +463,9 @@ function activateMeasure(tabID) {
   }
   tabDiv.setAttribute('style', 'display: inherit;');
   measureItemSelect.setAttribute('style', 'background: orange;');
+
+  var available = document.getElementById('columns-available');
+  available.innerHTML = totalCells[tabID];
 
   unselectAll();
 }
@@ -498,7 +514,7 @@ function compileASCII() {
     for (var string = 1; string <= guitarStrings; string++) {
 
       // Move ACROSS the tablature
-      for (var cell = 0; cell <= totalCells; cell++) {
+      for (var cell = 0; cell <= totalCells[tabs]; cell++) {
 
         cellID = cell + 'x' + string + '-' + measure;
 

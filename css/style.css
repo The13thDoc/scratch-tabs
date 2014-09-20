@@ -144,4 +144,6 @@ Tablature cells
 	margin-left: 63px;
 	overflow: auto;
 	font-size: medium;
+	white-space: pre;
+	word-wrap: normal;
 }
