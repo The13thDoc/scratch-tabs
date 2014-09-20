@@ -183,11 +183,9 @@ function init(guitarStrings) {
       inputList.appendChild(item);
     }
   }
-
   // Finished creating the tablature cells.
 
-  var width = 20 * (totalCells[tabs]);
-  inputList.setAttribute('style', 'width:' + width + 'px;');
+  updateWidth(totalCells[tabs], inputList);
 
   var available = document.getElementById('columns-available');
   available.innerHTML = totalCells[tabs];
@@ -200,22 +198,17 @@ function init(guitarStrings) {
 * Append another column (fret) of input to the tablature.
 */
 function appendInputColumn() {
-  console.debug('measure', 'append measure');
   // For all user input
-  var inputList = document.getElementById('input-list' + '-' + tabs.toString());
-  var incremented = (totalCells[tabs] + 1);
-  // console.debug('measure', 'Curent: ' + totalCells[tabs]);
-  // console.debug('measure', 'Raise to: ' + incremented);
+  var inputList = document.getElementById('input-list' + '-' + visibleTab.toString());
+  var incremented = (totalCells[visibleTab] + 1);
 
   // Create the input columns
   // Move DOWN the tablature
   for (var string = 1; string <= guitarStrings; string++) {
-    // console.debug('measure', 'String: ', string);
 
-    //   // Move ACROSS the tablature
+    // Move ACROSS the tablature
     for (var cell = incremented; cell <= incremented; cell++) {
-      console.debug('measure', 'Increment to ' + incremented);
-      var matrixID = cell + 'x' + string + '-' + tabs.toString();
+      var matrixID = cell + 'x' + string + '-' + visibleTab.toString();
       var cellID = 'cell_' + matrixID;
 
       var item = document.createElement('li');
@@ -229,34 +222,37 @@ function appendInputColumn() {
       item.className = 'input-cell ui-state-default';
       item.appendChild(canvasElement);
 
-
-      // var previousCell = (cell - 2);
       var referenceString = string + 1; // String following current one.
       var referenceElement =
-      document.getElementById('cell_1' + 'x' + referenceString + '-' + tabs.toString());
+      document.getElementById('cell_1' + 'x' + referenceString + '-' + visibleTab.toString());
 
       if (string < 6) {
         inputList.insertBefore(item, referenceElement);
       } else {
-        // console.debug('measure', 'Insert (' + item.id + ') before: (' + referenceElement.id + ')');
         inputList.appendChild(item);
       }
     }
   }
-  console.debug('measure', 'done');
-  // Now, increment the total number of cells by 1.
-  totalCells[tabs] = incremented;
-
   // Finished creating the tablature cells.
 
-  var width = 20 * (totalCells[tabs]);
-  inputList.setAttribute('style', 'width:' + width + 'px;');
+  // Now, increment the total number of cells by 1.
+  totalCells[visibleTab] = incremented;
 
-  var available = document.getElementById('columns-available');
-  available.innerHTML = totalCells[tabs];
+  updateWidth(totalCells[visibleTab], inputList);
 
   writeASCII();
   isInitializing = 'false';
+}
+
+/**
+* Resize the input list's width to fit the new number of columns.
+*/
+function updateWidth(cells, inputList) {
+  var width = 20 * (cells);
+  inputList.setAttribute('style', 'width:' + width + 'px;');
+
+  var available = document.getElementById('columns-available');
+  available.innerHTML = cells;
 }
 
 /**
@@ -450,11 +446,10 @@ function addMeasure() {
 */
 function activateMeasure(tabID) {
   var currentTab = visibleTab;
-  //
   visibleTab = tabID;
+
   var tabDiv = document.getElementById('tab-div-'+visibleTab.toString());
   var measureItemSelect = document.getElementById('measure-item-'+visibleTab.toString());
-
 
   if(currentTab !== 0){
     var measureItemUnselect = document.getElementById('measure-item-'+currentTab.toString());
