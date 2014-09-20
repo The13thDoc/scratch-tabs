@@ -147,3 +147,7 @@ Tablature cells
 	white-space: pre;
 	word-wrap: normal;
 }
+
+.measure-size {
+	display: inline-flex;
+}
