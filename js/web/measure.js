@@ -9,11 +9,11 @@ function shrinkMeasure() {
   // console.debug('measure', 'Remove last column');
   // For all user input
   var inputList = document.getElementById('input-list' + '-' + visibleTab.toString());
-  var last = totalCells[visibleTab];
+  var last = TAB.totalCells[visibleTab];
   var decremented = last - 1;
 
   // Move DOWN the tablature
-  for (var string = 1; string <= guitarStrings; string++) {
+  for (var string = 1; string <= TAB.guitarStrings; string++) {
     var matrixID = last + 'x' + string + '-' + visibleTab.toString();
     var cellID = 'cell_' + matrixID;
 
@@ -24,9 +24,9 @@ function shrinkMeasure() {
   }
 
   // Now, increment the total number of cells by 1.
-  totalCells[visibleTab] = decremented;
+  TAB.totalCells[visibleTab] = decremented;
 
-  updateWidth(totalCells[visibleTab], inputList);
+  updateWidth(TAB.totalCells[visibleTab], inputList);
 
   writeASCII();
 }
@@ -37,11 +37,11 @@ function shrinkMeasure() {
 function extendMeasure() {
   // For all user input
   var inputList = document.getElementById('input-list' + '-' + visibleTab.toString());
-  var incremented = (totalCells[visibleTab] + 1);
+  var incremented = (TAB.totalCells[visibleTab] + 1);
 
   // Create the input columns
   // Move DOWN the tablature
-  for (var string = 1; string <= guitarStrings; string++) {
+  for (var string = 1; string <= TAB.guitarStrings; string++) {
 
     // Move ACROSS the tablature
     for (var cell = incremented; cell <= incremented; cell++) {
@@ -73,9 +73,9 @@ function extendMeasure() {
   // Finished creating the tablature cells.
 
   // Now, increment the total number of cells by 1.
-  totalCells[visibleTab] = incremented;
+  TAB.totalCells[visibleTab] = incremented;
 
-  updateWidth(totalCells[visibleTab], inputList);
+  updateWidth(TAB.totalCells[visibleTab], inputList);
 
   writeASCII();
 }
@@ -88,25 +88,25 @@ function addMeasure() {
 
   var item = document.createElement('li');
 
-  tabs = tabs + 1;
-  totalCells[tabs] = startCells;
+  TAB.tabs = TAB.tabs + 1;
+  TAB.totalCells[TAB.tabs] = TAB.startCells;
 
-  item.id = 'measure-item-' + tabs.toString();
+  item.id = 'measure-item-' + TAB.tabs.toString();
   tabsList.appendChild(item);
   item.addEventListener('click', function (event) {
     activateMeasure(div.id.replace('measure-div-',''));
   }, true);
 
   var div = document.createElement('div');
-  div.id = 'measure-div-' + tabs.toString();
-  div.title = 'Measure ' + tabs.toString();
-  div.innerHTML = 'Measure ' + tabs.toString();
+  div.id = 'measure-div-' + TAB.tabs.toString();
+  div.title = 'Measure ' + TAB.tabs.toString();
+  div.innerHTML = 'Measure ' + TAB.tabs.toString();
 
   item.appendChild(div);
 
-  init(guitarStrings);
+  init(TAB.guitarStrings);
 
-  activateMeasure(tabs);
+  activateMeasure(TAB.tabs);
 }
 
 /**
@@ -128,7 +128,7 @@ function activateMeasure(tabID) {
   measureItemSelect.setAttribute('style', 'background: orange;');
 
   var available = document.getElementById('columns-available');
-  available.innerHTML = totalCells[tabID];
+  available.innerHTML = TAB.totalCells[tabID];
 
   unselectAll();
 }

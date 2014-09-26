@@ -86,7 +86,7 @@ function initUserInput() {
         userInput = userInput + char;
         console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + userInput);
 
-        if (parseInt(userInput) > maxFrets) {
+        if (parseInt(userInput) > TAB.maxFrets) {
           console.log('input', 'Parse to int successful');
           userInput = char;
         }
@@ -100,7 +100,7 @@ function initUserInput() {
         userInput = userInput + char;
         console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + userInput);
 
-        if (parseInt(userInput) > maxFrets) {
+        if (parseInt(userInput) > TAB.maxFrets) {
           console.log('input', 'Parse to int successful');
           userInput = char;
         }

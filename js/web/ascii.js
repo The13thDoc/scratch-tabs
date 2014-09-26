@@ -19,13 +19,13 @@ function compileASCII() {
   var cellID;
 
   // Move through each measure
-  for (var measure = 1; measure <= tabs; measure++) {
+  for (var measure = 1; measure <= TAB.tabs; measure++) {
 
     // Move DOWN the tablature
-    for (var string = 1; string <= guitarStrings; string++) {
+    for (var string = 1; string <= TAB.guitarStrings; string++) {
 
       // Move ACROSS the tablature
-      for (var cell = 0; cell <= totalCells[measure]; cell++) {
+      for (var cell = 0; cell <= TAB.totalCells[measure]; cell++) {
 
         cellID = cell + 'x' + string + '-' + measure;
 
