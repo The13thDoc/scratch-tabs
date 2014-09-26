@@ -29,10 +29,10 @@ function compileASCII() {
 
         cellID = cell + 'x' + string + '-' + measure;
 
-        if(!savedInput[cellID]) {
+        if(!TAB.savedInput[cellID]) {
           data = '';
         } else {
-          data = savedInput[cellID];
+          data = TAB.savedInput[cellID];
         }
 
         if(cell === 0){

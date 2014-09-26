@@ -24,8 +24,8 @@ function fromKeyCode(key) {
 }
 
 function clearTemp() {
-  if (userInput.length > 0) {
-    userInput = '';
+  if (TAB.userInput.length > 0) {
+    TAB.userInput = '';
     console.log('input', 'Cleared temp');
   }
 }
@@ -34,9 +34,9 @@ function clearTemp() {
 * Write current user input to all selected cells.
 */
 function writeAll(userInput) {
-  for (var i = 0; i < selected.length; i++) {
+  for (var i = 0; i < TAB.selected.length; i++) {
     // Get only the matrix index. Disregard the element type.
-    var index = selected[i].replace('cell_', '');
+    var index = TAB.selected[i].replace('cell_', '');
 
     writeToCanvas(index, userInput);
   }
@@ -47,13 +47,13 @@ function writeAll(userInput) {
 */
 function unselectAll() {
   console.log('input', 'UNSELECT');
-  for (var i = 0; i < selected.length; i++) {
-    var cell = document.getElementById(selected[i]);
-    // console.debug(cell);
+  for (var i = 0; i < TAB.selected.length; i++) {
+    var cell = document.getElementById(TAB.selected[i]);
+    // console.debug(TAB.selected[i]);
     cell.classList.remove('unselect', 'ui-selected');
   }
-  selected = [];
-  // console.debug('unselect', selected.length);
+  TAB.selected = [];
+  // console.debug('unselect', TAB.selected.length);
 }
 
 /**
@@ -61,9 +61,9 @@ function unselectAll() {
 */
 function clearAll() {
   console.log('input', 'ERASE');
-  for (var i = 0; i < selected.length; i++) {
+  for (var i = 0; i < TAB.selected.length; i++) {
     // Get only the matrix index. Disregard the element type.
-    var index = selected[i].replace('cell_', '');
+    var index = TAB.selected[i].replace('cell_', '');
 
     clearCanvas(index);
   }
@@ -78,34 +78,34 @@ function initUserInput() {
     var char;
 
     // INPUT mode
-    if (selected.length != 0) {
+    if (TAB.selected.length != 0) {
       var timeoutID = window.setTimeout(clearTemp, 1000);
 
       if (key >= 48 && key <= 57) {
         char = String.fromCharCode(key);
-        userInput = userInput + char;
-        console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + userInput);
+        TAB.userInput = TAB.userInput + char;
+        console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TAB.userInput);
 
-        if (parseInt(userInput) > TAB.maxFrets) {
+        if (parseInt(TAB.userInput) > TAB.maxFrets) {
           console.log('input', 'Parse to int successful');
-          userInput = char;
+          TAB.userInput = char;
         }
 
-        writeAll(userInput);
+        writeAll(TAB.userInput);
       }
 
       // 96 - 105 (number pad)
       if (key >= 96 && key <= 105) {
         char = fromKeyCode(key);
-        userInput = userInput + char;
-        console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + userInput);
+        TAB.userInput = TAB.userInput + char;
+        console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TAB.userInput);
 
-        if (parseInt(userInput) > TAB.maxFrets) {
+        if (parseInt(TAB.userInput) > TAB.maxFrets) {
           console.log('input', 'Parse to int successful');
-          userInput = char;
+          TAB.userInput = char;
         }
 
-        writeAll(userInput);
+        writeAll(TAB.userInput);
       }
 
       // 8 (backspace), 46 (delete)

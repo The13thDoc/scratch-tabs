@@ -62,14 +62,14 @@ function write(id, text, canvas) {
   canvas.textBaseline = 'middle';
   canvas.strokeText(text, x, y);
 
-  savedInput[id] = text;
+  TAB.savedInput[id] = text;
 
   // remove current canvas
   cell.removeChild(cell.lastChild);
   // add new canvas
   cell.appendChild(canvasElement);
 
-  if(isInitializing === 'false') {
+  if(TAB.isInitializing === 'false') {
     writeASCII();
   }
 }
@@ -82,7 +82,7 @@ function clearCanvas(id) {
   cell.removeChild(cell.lastChild);
 
   var canvasElement = getNewCanvas(id);
-  savedInput[id] = defaultEmpty;
+  TAB.savedInput[id] = TAB.defaultEmpty;
 
   // add new canvas element to cell
   cell.appendChild(canvasElement);

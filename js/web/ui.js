@@ -1,18 +1,10 @@
 /*global*/
 var TAB = TAB || {};
 
-
-
-
-
-var visibleTab = 0;
-var selected = [];
-var savedInput = {};
-var userInput = '';
-var defaultEmpty = '--';
-
-var asciiVisible = 'false';
-var isInitializing = 'false';
+/*
+* On load
+*/
+window.onload = loadMain;
 
 /**
 * Initialize project variables.
@@ -23,12 +15,19 @@ function initVars() {
     TAB.startCells = 36;
     TAB.totalCells = {1:36}; // number of columns, or 'frets'
     TAB.tabs = 0;
+    TAB.visibleTab = 0;
+    TAB.selected = [];
+    TAB.savedInput = {};
+    TAB.userInput = '';
+    TAB.defaultEmpty = '--';
+    TAB.asciiVisible = 'false';
+    TAB.isInitializing = 'false';
 }
 
-/*
-* On load
+/**
+* Main.
 */
-window.onload = function () {
+function loadMain() {
     initVars();
 
     addMeasure();
@@ -42,12 +41,12 @@ window.onload = function () {
     toggleASCII.addEventListener('click', function (event) {
         var asciiText = document.getElementById('ascii-text');
 
-        if(asciiVisible === 'true') {
+        if(TAB.asciiVisible === 'true') {
             asciiText.setAttribute('style', 'display: none;');
-            asciiVisible = 'false';
+            TAB.asciiVisible = 'false';
         } else {
             asciiText.setAttribute('style', 'display: inherit;');
-            asciiVisible = 'true';
+            TAB.asciiVisible = 'true';
         }
     }, true);
 
@@ -66,7 +65,7 @@ window.onload = function () {
 
 // Initialize the UI
 function init(guitarStrings) {
-    isInitializing = 'true';
+    TAB.isInitializing = 'true';
     // Let's create lists here.
     // Replicate a spreadhsheet look
     var content = document.getElementById('measure-content');
@@ -145,7 +144,7 @@ function init(guitarStrings) {
 
             // Write the cells
             var canvasElement = getNewCanvas(matrixID);
-            savedInput[matrixID] = defaultEmpty;
+            TAB.savedInput[matrixID] = TAB.defaultEmpty;
 
             // front
             item.className = 'input-cell ui-state-default';
@@ -162,7 +161,7 @@ function init(guitarStrings) {
     available.innerHTML = TAB.totalCells[TAB.tabs];
 
     writeASCII();
-    isInitializing = 'false';
+    TAB.isInitializing = 'false';
 }
 
 /**
@@ -181,7 +180,7 @@ function makeSelectable(e) {
     $(e).selectable({
         stop: function () {
             if (!e.ctrlKey) {
-                selected = [];
+                TAB.selected = [];
             }
             // var result = $("#select-result").empty();
             $(".ui-selected", this).each(function (index) {
@@ -189,10 +188,10 @@ function makeSelectable(e) {
                 var id = $(this).attr('id');
                 if (id.indexOf('cell') > -1) {
                     // execute acton here
-                    selected.push(id);
+                    TAB.selected.push(id);
                 }
             });
-            console.log(selected);
+            console.log(TAB.selected);
         }
     });
 }

@@ -8,25 +8,25 @@
 function shrinkMeasure() {
   // console.debug('measure', 'Remove last column');
   // For all user input
-  var inputList = document.getElementById('input-list' + '-' + visibleTab.toString());
-  var last = TAB.totalCells[visibleTab];
+  var inputList = document.getElementById('input-list' + '-' + TAB.visibleTab.toString());
+  var last = TAB.totalCells[TAB.visibleTab];
   var decremented = last - 1;
 
   // Move DOWN the tablature
   for (var string = 1; string <= TAB.guitarStrings; string++) {
-    var matrixID = last + 'x' + string + '-' + visibleTab.toString();
+    var matrixID = last + 'x' + string + '-' + TAB.visibleTab.toString();
     var cellID = 'cell_' + matrixID;
 
     var item = document.getElementById(cellID);
     // console.debug('measure', item);
-    delete savedInput[matrixID];
+    delete TAB.savedInput[matrixID];
     inputList.removeChild(item);
   }
 
   // Now, increment the total number of cells by 1.
-  TAB.totalCells[visibleTab] = decremented;
+  TAB.totalCells[TAB.visibleTab] = decremented;
 
-  updateWidth(TAB.totalCells[visibleTab], inputList);
+  updateWidth(TAB.totalCells[TAB.visibleTab], inputList);
 
   writeASCII();
 }
@@ -36,8 +36,8 @@ function shrinkMeasure() {
 */
 function extendMeasure() {
   // For all user input
-  var inputList = document.getElementById('input-list' + '-' + visibleTab.toString());
-  var incremented = (TAB.totalCells[visibleTab] + 1);
+  var inputList = document.getElementById('input-list' + '-' + TAB.visibleTab.toString());
+  var incremented = (TAB.totalCells[TAB.visibleTab] + 1);
 
   // Create the input columns
   // Move DOWN the tablature
@@ -45,7 +45,7 @@ function extendMeasure() {
 
     // Move ACROSS the tablature
     for (var cell = incremented; cell <= incremented; cell++) {
-      var matrixID = cell + 'x' + string + '-' + visibleTab.toString();
+      var matrixID = cell + 'x' + string + '-' + TAB.visibleTab.toString();
       var cellID = 'cell_' + matrixID;
 
       var item = document.createElement('li');
@@ -53,7 +53,7 @@ function extendMeasure() {
 
       // Write the cells
       var canvasElement = getNewCanvas(matrixID);
-      savedInput[matrixID] = defaultEmpty;
+      TAB.savedInput[matrixID] = TAB.defaultEmpty;
 
       // front
       item.className = 'input-cell ui-state-default';
@@ -61,7 +61,7 @@ function extendMeasure() {
 
       var referenceString = string + 1; // String following current one.
       var referenceElement = document.getElementById('cell_1' + 'x' +
-      referenceString + '-' + visibleTab.toString());
+      referenceString + '-' + TAB.visibleTab.toString());
 
       if (string < 6) {
         inputList.insertBefore(item, referenceElement);
@@ -73,9 +73,9 @@ function extendMeasure() {
   // Finished creating the tablature cells.
 
   // Now, increment the total number of cells by 1.
-  TAB.totalCells[visibleTab] = incremented;
+  TAB.totalCells[TAB.visibleTab] = incremented;
 
-  updateWidth(TAB.totalCells[visibleTab], inputList);
+  updateWidth(TAB.totalCells[TAB.visibleTab], inputList);
 
   writeASCII();
 }
@@ -113,11 +113,11 @@ function addMeasure() {
 * Make the measure activate and visible.
 */
 function activateMeasure(tabID) {
-  var currentTab = visibleTab;
-  visibleTab = tabID;
+  var currentTab = TAB.visibleTab;
+  TAB.visibleTab = tabID;
 
-  var tabDiv = document.getElementById('tab-div-'+visibleTab.toString());
-  var measureItemSelect = document.getElementById('measure-item-'+visibleTab.toString());
+  var tabDiv = document.getElementById('tab-div-'+TAB.visibleTab.toString());
+  var measureItemSelect = document.getElementById('measure-item-'+TAB.visibleTab.toString());
 
   if(currentTab !== 0){
     var measureItemUnselect = document.getElementById('measure-item-'+currentTab.toString());
