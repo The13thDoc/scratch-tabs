@@ -1,5 +1,4 @@
-// On Load
-//window.focus();
+/*global*/
 var guitarStrings = 6;
 var maxFrets = 24;
 var startCells = 36;
