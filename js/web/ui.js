@@ -9,7 +9,7 @@ window.onload = loadMain;
 /**
 * Initialize project variables.
 */
-function initVars() {
+function initProjectVariables() {
     TAB.guitarStrings = 6;
     TAB.maxFrets = 24;
     TAB.startCells = 36;
@@ -28,7 +28,7 @@ function initVars() {
 * Main.
 */
 function loadMain() {
-    initVars();
+    initProjectVariables();
 
     addMeasure();
 
@@ -64,7 +64,7 @@ function loadMain() {
 }
 
 // Initialize the UI
-function init(guitarStrings) {
+function initUI(guitarStrings) {
     TAB.isInitializing = 'true';
     // Let's create lists here.
     // Replicate a spreadhsheet look

@@ -104,7 +104,7 @@ function addMeasure() {
 
   item.appendChild(div);
 
-  init(TAB.guitarStrings);
+  initUI(TAB.guitarStrings);
 
   activateMeasure(TAB.tabs);
 }
