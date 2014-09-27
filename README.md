@@ -4,11 +4,10 @@ Scratch-tabs is a **guitar tablature writer** focused on providing a quick and e
 
 This is a work in progress based on the [ram-tabs](https://github.com/The13thDoc/ram-tabs) project.
 
-####Status: **In Development**
+####Status: **In Testing**
 
 ####Ongoing design docs:
 [Scratch tabs design](https://docs.google.com/drawings/d/1aF2JeQ9Zi2AEM_f2ANQ4f1Uy9LuKfW33Ym_UDrNsmNU/edit?usp=sharing)
 
-Prototype/Modules:
-- [tablature](http://jsfiddle.net/LorAXE/PLEYK/embedded/result/)
-- [tuning](http://jsfiddle.net/LorAXE/TBkQ7/)
+Prototype:
+[Scratch-tabs](https://the13thdoc.github.io/scratch-tabs/)
