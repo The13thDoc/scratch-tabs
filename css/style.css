@@ -3,11 +3,11 @@ body {
 	font-family: 'Ubuntu Mono';
 }
 
-#main-ui {
+.main-ui {
 	margin: 20px auto 0 10px;
 }
 
-#main-ui a {
+.main-ui a {
 	display:block;
 	font-size:1.2em;
 	padding-top:20px;
@@ -23,11 +23,11 @@ body {
 /*
 Tabs for each measure/riff
 */
-#measure-ui {
+.measure-ui {
 	padding: 5px;
 }
 
-#measure-headers > ul > li {
+.measure-headers > ul > li {
 	margin:0 2px 0 0;
 	padding:7px 10px;
 	display:block;
@@ -40,13 +40,13 @@ Tabs for each measure/riff
 	background: #C9C9C9; /* old browsers */
 }
 
-#measure-headers > ul > li:hover{
+.measure-headers > ul > li:hover{
 	background: orchid; /* old browsers */
 	cursor:pointer;
 	color: #333;
 }
 
-#measure-content {
+.measure-content {
 	color:#333;
 }
 
@@ -132,4 +132,22 @@ Tablature cells
 
 .input-list .ui-selected:hover {
 	background: orangered;
+}
+
+.quick-reference {
+	margin: 20px;
+}
+
+.ascii {
+	width: 900px;
+	height: 239px;
+	margin-left: 63px;
+	overflow: auto;
+	font-size: medium;
+	white-space: pre;
+	word-wrap: normal;
+}
+
+.measure-size {
+	display: inline-flex;
 }
