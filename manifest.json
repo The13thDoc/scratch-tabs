@@ -1,0 +1,12 @@
+{
+  "name": "Scratch Tabs",
+  "description": "Chrome app version of Scratch Tabs.",
+  "version": "0.1.0",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "icons": { "16": "logo-16.png", "128": "logo-128.png" }
+}
