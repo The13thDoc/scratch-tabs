@@ -26,7 +26,7 @@ function getNewBlankCanvas(id) {
   canvasElement.width = '20';
   canvasElement.height = '20';
 
-  var canvas = canvasElement.getContext("2d");
+  // var canvas = canvasElement.getContext("2d");
 
   return canvasElement;
 }
@@ -49,18 +49,17 @@ function writeToBlankCanvas(id, text) {
 /**
 * Write the specified text to the specified canvas.
 */
-function write(id, text, canvas) {
+function write(id, text, canvasElement) {
   var cell = document.getElementById('cell_' + id);
 
-  var canvasElement = canvas;
-  var canvas = canvasElement.getContext("2d");
+  var canvasContext = canvasElement.getContext("2d");
   var x = canvasElement.width / 2;
   var y = canvasElement.height / 2;
   // draw text
-  canvas.font = '10pt Arial';
-  canvas.textAlign = 'center';
-  canvas.textBaseline = 'middle';
-  canvas.strokeText(text, x, y);
+  canvasContext.font = '10pt Arial';
+  canvasContext.textAlign = 'center';
+  canvasContext.textBaseline = 'middle';
+  canvasContext.strokeText(text, x, y);
 
   TAB.savedInput[id] = text;
 
