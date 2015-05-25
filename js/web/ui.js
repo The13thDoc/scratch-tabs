@@ -20,7 +20,7 @@ function initProjectVariables() {
     TAB.savedInput = {};
     TAB.userInput = '';
     TAB.asciiformats = {
-        'simpleformat1':{
+        'monospace-3':{
             'rules':{
                 'defaultEmpty':'---',
                 'singlecharacter':{
@@ -41,18 +41,18 @@ function initProjectVariables() {
                     'posttuning':'|',
 
                     'prefirstbeat':'',
-                    'postfirstbeat':'=',
+                    'postfirstbeat':'-',
 
                     'prenextbeat':'',
-                    'postnextbeat':'=',
+                    'postnextbeat':'-',
 
                     'prelastbeat':'',
-                    'postlastbeat':'='
+                    'postlastbeat':'-'
                 }
             }
         }
     };
-    TAB.defaultEmpty = TAB.asciiformats['simpleformat1']['rules']['defaultEmpty'];
+    TAB.defaultEmpty = TAB.asciiformats['monospace-3']['rules']['defaultEmpty'];
     TAB.asciiVisible = 'false';
     TAB.isInitializing = 'false';
 }

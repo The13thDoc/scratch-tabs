@@ -17,7 +17,7 @@ function compileASCII() {
   var ascii = '';
   var data = '';
   var cellID;
-  var format = TAB.asciiformats['simpleformat1'];
+  var format = TAB.asciiformats['monospace-3'];
   var rules = format['rules'];
 
   // Move through each measure
@@ -37,7 +37,7 @@ function compileASCII() {
         // Determine how many characters exist.
         // Get the appropriate rule.
         var variant;
-        console.log(data);
+        // console.log(data);
         if (data.length === 1) {
             variant = rules['singlecharacter'];
         }

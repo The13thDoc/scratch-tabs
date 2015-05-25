@@ -1,6 +1,6 @@
 {
     TAB.asciiformats = {
-        'simpleformat1':{
+        'monospace-3':{
             'rules':{
                 'defaultEmpty':'--',
                 'singlecharacter':{
