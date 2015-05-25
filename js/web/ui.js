@@ -19,7 +19,40 @@ function initProjectVariables() {
     TAB.selected = [];
     TAB.savedInput = {};
     TAB.userInput = '';
-    TAB.defaultEmpty = '--';
+    TAB.asciiformats = {
+        'simpleformat1':{
+            'rules':{
+                'defaultEmpty':'--',
+                'singlecharacter':{
+                    'pretuning':'',
+                    'posttuning':' |',
+
+                    'prefirstbeat':'',
+                    'postfirstbeat':'-',
+
+                    'prenextbeat':'',
+                    'postnextbeat':'-',
+
+                    'prelastbeat':'',
+                    'postlastbeat':''
+                },
+                'doublecharacter':{
+                    'pretuning':'',
+                    'posttuning':'|',
+
+                    'prefirstbeat':'',
+                    'postfirstbeat':'-',
+
+                    'prenextbeat':'',
+                    'postnextbeat':'-',
+
+                    'prelastbeat':'',
+                    'postlastbeat':''
+                }
+            }
+        }
+    };
+    TAB.defaultEmpty = TAB.asciiformats['simpleformat1']['rules']['defaultEmpty'];
     TAB.asciiVisible = 'false';
     TAB.isInitializing = 'false';
 }

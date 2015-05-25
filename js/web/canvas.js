@@ -85,6 +85,10 @@ function clearCanvas(id) {
 
   // add new canvas element to cell
   cell.appendChild(canvasElement);
+
+    if(TAB.isInitializing === 'false') {
+      writeASCII();
+    }
 }
 
 /**

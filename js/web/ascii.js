@@ -17,6 +17,8 @@ function compileASCII() {
   var ascii = '';
   var data = '';
   var cellID;
+  var format = TAB.asciiformats['simpleformat1'];
+  var rules = format['rules'];
 
   // Move through each measure
   for (var measure = 1; measure <= TAB.tabs; measure++) {
@@ -35,10 +37,25 @@ function compileASCII() {
           data = TAB.savedInput[cellID];
         }
 
-        if(cell === 0){
-          ascii = ascii + data + "|";
-        } else {
-          ascii = ascii + '-' + data;
+        var variant;
+        if (data.length === 1) {
+            variant = rules['singlecharacter'];
+        }
+        if (data.length === 2) {
+            variant = rules['doublecharacter'];
+        }
+
+        if (cell === 0) {
+          ascii = ascii + variant['pretuning'] + data + variant['posttuning'];
+        }
+        else if (cell === 1) {
+          ascii = ascii + variant['prefirstbeat'] + data + variant['postfirstbeat'];
+        }
+        else if (cell > 1 && cell < TAB.totalCells[measure]) {
+            ascii = ascii + variant['prenextbeat'] + data + variant['postnextbeat'];
+        }
+        else if (cell === TAB.totalCells[measure]) {
+            ascii = ascii + variant['prelastbeat'] + data + variant['postlastbeat'];
         }
 
         // console.debug('ascii', cellID);
