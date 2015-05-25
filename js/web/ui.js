@@ -22,32 +22,32 @@ function initProjectVariables() {
     TAB.asciiformats = {
         'simpleformat1':{
             'rules':{
-                'defaultEmpty':'--',
+                'defaultEmpty':'---',
                 'singlecharacter':{
                     'pretuning':'',
                     'posttuning':' |',
 
                     'prefirstbeat':'',
-                    'postfirstbeat':'-',
+                    'postfirstbeat':'--',
 
                     'prenextbeat':'',
-                    'postnextbeat':'-',
+                    'postnextbeat':'--',
 
                     'prelastbeat':'',
-                    'postlastbeat':''
+                    'postlastbeat':'--'
                 },
                 'doublecharacter':{
                     'pretuning':'',
                     'posttuning':'|',
 
                     'prefirstbeat':'',
-                    'postfirstbeat':'-',
+                    'postfirstbeat':'=',
 
                     'prenextbeat':'',
-                    'postnextbeat':'-',
+                    'postnextbeat':'=',
 
                     'prelastbeat':'',
-                    'postlastbeat':''
+                    'postlastbeat':'='
                 }
             }
         }

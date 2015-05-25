@@ -31,13 +31,13 @@ function compileASCII() {
 
         cellID = cell + 'x' + string + '-' + measure;
 
-        if(!TAB.savedInput[cellID]) {
-          data = '';
-        } else {
-          data = TAB.savedInput[cellID];
-        }
+        data = TAB.savedInput[cellID];
+        data = data.replace(/[-]+/g, ''); // Remove all occurrences of '-'
 
+        // Determine how many characters exist.
+        // Get the appropriate rule.
         var variant;
+        console.log(data);
         if (data.length === 1) {
             variant = rules['singlecharacter'];
         }
@@ -45,21 +45,28 @@ function compileASCII() {
             variant = rules['doublecharacter'];
         }
 
+
+        // Tuning column.
         if (cell === 0) {
           ascii = ascii + variant['pretuning'] + data + variant['posttuning'];
         }
-        else if (cell === 1) {
-          ascii = ascii + variant['prefirstbeat'] + data + variant['postfirstbeat'];
+        // Empty cell. Fill with default, "empty" character rule
+        if (data.length === 0) {
+            ascii = ascii + rules['defaultEmpty'];
+        } else {
+            // First column
+            if (cell === 1) {
+              ascii = ascii + variant['prefirstbeat'] + data + variant['postfirstbeat'];
+            }
+            // Any columns after the first and before the last
+            else if (cell > 1 && cell < TAB.totalCells[measure]) {
+                ascii = ascii + variant['prenextbeat'] + data + variant['postnextbeat'];
+            }
+            // Last column
+            else if (cell === TAB.totalCells[measure]) {
+                ascii = ascii + variant['prelastbeat'] + data + variant['postlastbeat'];
+            }
         }
-        else if (cell > 1 && cell < TAB.totalCells[measure]) {
-            ascii = ascii + variant['prenextbeat'] + data + variant['postnextbeat'];
-        }
-        else if (cell === TAB.totalCells[measure]) {
-            ascii = ascii + variant['prelastbeat'] + data + variant['postlastbeat'];
-        }
-
-        // console.debug('ascii', cellID);
-        // console.debug('ascii', data);
       }
       ascii = ascii + '\n'; // new line for next string
     }
