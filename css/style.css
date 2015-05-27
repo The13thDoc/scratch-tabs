@@ -46,12 +46,12 @@ Tabs for each measure/riff
 
 .measure-headers > ul > li:hover{
 	background: orchid; /* old browsers */
-	cursor:pointer;
+	cursor: pointer;
 	color: #333;
 }
 
 .measure-content {
-	color:#333;
+	/*overflow: auto;*/
 }
 
 .tab-div {

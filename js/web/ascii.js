@@ -45,7 +45,6 @@ function compileASCII() {
             variant = rules['doublecharacter'];
         }
 
-
         // Tuning column.
         if (cell === 0) {
           ascii = ascii + variant['pretuning'] + data + variant['posttuning'];
