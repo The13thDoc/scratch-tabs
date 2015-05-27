@@ -6,6 +6,10 @@ body {
 .main-ui {
 	margin: 20px auto 0 10px;
 }
+/*
+.backgorund {
+	background: #708090;
+}*/
 
 .main-ui a {
 	display:block;
@@ -139,9 +143,12 @@ Tablature cells
 }
 
 .ascii {
-	width: 900px;
+	width: 100%;
 	height: 239px;
-	margin-left: 63px;
+	/*margin-left: 63px;*/
+	border-width: 5px 0px 5px 0px;
+	padding: 15px 5px 5px 30px;
+	border-style: inset;
 	overflow: auto;
 	font-size: medium;
 	white-space: pre;

@@ -53,8 +53,15 @@ function initProjectVariables() {
         }
     };
     TAB.defaultEmpty = TAB.asciiformats['monospace-3']['rules']['defaultEmpty'];
-    TAB.asciiVisible = 'false';
+    TAB.asciiVisible = 'true';
     TAB.isInitializing = 'false';
+
+    var asciiText = document.getElementById('ascii-text');
+    if(TAB.asciiVisible === 'true') {
+        asciiText.setAttribute('style', 'display: inherit;');
+    } else {
+        asciiText.setAttribute('style', 'display: none;');
+    }
 }
 
 /**

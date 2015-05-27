@@ -6,12 +6,10 @@
 * Returns a new canvas element with the default drawing.
 */
 function getNewCanvas(id) {
-  var canvasElement = document.createElement('canvas');
-  canvasElement.id = 'canvas_' + id;
-  canvasElement.width = '20';
-  canvasElement.height = '20';
-
+  var canvasElement = getNewBlankCanvas(id);
   var canvas = canvasElement.getContext("2d");
+  // canvas.fillStyle = "#708090";
+  // canvas.fillRect(0, 0, 20, 20);
   drawLine(canvas);
 
   return canvasElement;
@@ -25,8 +23,6 @@ function getNewBlankCanvas(id) {
   canvasElement.id = 'canvas_' + id;
   canvasElement.width = '20';
   canvasElement.height = '20';
-
-  // var canvas = canvasElement.getContext("2d");
 
   return canvasElement;
 }
@@ -55,6 +51,7 @@ function write(id, text, canvasElement) {
   var canvasContext = canvasElement.getContext("2d");
   var x = canvasElement.width / 2;
   var y = canvasElement.height / 2;
+
   // draw text
   canvasContext.font = '10pt Arial';
   canvasContext.textAlign = 'center';
