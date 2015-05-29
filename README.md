@@ -5,6 +5,8 @@ Scratch-tabs is a **guitar tablature writer** focused on providing a quick and e
 
 This is a work in progress based on the [ram-tabs](https://github.com/The13thDoc/ram-tabs) project.
 
+![](images/readme-example-image.png)
+
 ####Status: **In Development and Testing**
 ####0.1.0  
 [(Semantic Versioning Guide)](http://semver.org/)
