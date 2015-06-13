@@ -100,29 +100,39 @@ function addMeasure() {
   var div = document.createElement('div');
   div.id = 'measure-div-' + TAB.tabs.toString();
   div.title = 'Measure ' + TAB.tabs.toString();
-  // div.innerHTML = 'Measure ' + TAB.tabs.toString();
-  div.classList.add('measure-headers-list-selected');
+  // div.classList.add('measure-headers-list-selected');
 
   var nameInput = document.createElement('input');
   nameInput.id = 'measure-name-input-' + TAB.tabs.toString();
   nameInput.value = 'Measure ' + TAB.tabs.toString();
   nameInput.placeholder = 'Name your measure';
-  nameInput.setAttribute('disabled', 'true');
-  nameInput.classList.add('measure-headers-list-selected', true);
+  // nameInput.setAttribute('disabled', 'true');
+  // nameInput.classList.add('measure-headers-list-selected', true);
+
+  div.innerHTML = nameInput.value;
+  // div.appendChild(nameInput);
+  // nameInput.display = 'none';
 
   div.addEventListener('dblclick', function(event){
       console.log('Double Clicked');
-      nameInput.removeAttribute('disabled');
+      div.innerHTML = '';
+      div.appendChild(nameInput);
+    //   nameInput.removeAttribute('disabled');
+      nameInput.setAttribute('display', 'inhereit');
     //   nameInput.classList.toggle('input-name', true);
   }, true);
 
   div.addEventListener('focusout', function(event){
       console.log('Mouse left.');
-      nameInput.setAttribute('disabled', 'true');
+
+    //   nameInput.setAttribute('disabled', 'true');
+    div.removeChild(nameInput);
+    div.innerHTML = nameInput.value;
+    //   nameInput.display = 'none';
     //   nameInput.classList.toggle('input-name', false);
   }, true);
 
-  div.appendChild(nameInput);
+
 
   item.appendChild(div);
 
@@ -150,8 +160,8 @@ function activateMeasure(tabID) {
     measureItemUnselect.classList.toggle('measure-headers-list-selected', false);
     measureItemUnselect.classList.toggle('measure-headers-list-unselected', true);
 
-    previousMeasureNameInput.classList.toggle('measure-headers-list-unselected', true);
-    previousMeasureNameInput.classList.toggle('measure-headers-list-selected', false);
+    // previousMeasureNameInput.classList.toggle('measure-headers-list-unselected', true);
+    // previousMeasureNameInput.classList.toggle('measure-headers-list-selected', false);
   }
 
   tabDiv.setAttribute('style', 'display: inherit;');
@@ -159,8 +169,8 @@ function activateMeasure(tabID) {
   measureItemSelect.classList.toggle('measure-headers-list-selected', true);
   measureItemSelect.classList.toggle('measure-headers-list-unselected', false);
 
-  nextMeasureNameInput.classList.toggle('measure-headers-list-unselected', false);
-  nextMeasureNameInput.classList.toggle('measure-headers-list-selected', true);
+  // nextMeasureNameInput.classList.toggle('measure-headers-list-unselected', false);
+  // nextMeasureNameInput.classList.toggle('measure-headers-list-selected', true);
 
   var available = document.getElementById('columns-available');
   available.innerHTML = TAB.totalCells[tabID];
