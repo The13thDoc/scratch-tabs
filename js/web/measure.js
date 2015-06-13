@@ -100,7 +100,27 @@ function addMeasure() {
   var div = document.createElement('div');
   div.id = 'measure-div-' + TAB.tabs.toString();
   div.title = 'Measure ' + TAB.tabs.toString();
-  div.innerHTML = 'Measure ' + TAB.tabs.toString();
+  // div.innerHTML = 'Measure ' + TAB.tabs.toString();
+  div.classList.add('measure-headers-list');
+
+  var nameInput = document.createElement('input');
+  nameInput.id = 'measure-name-input-' + TAB.tabs.toString();
+  nameInput.value = 'Measure ' + TAB.tabs.toString();
+  nameInput.placeholder = 'Name your measure';
+  nameInput.setAttribute('disabled', 'true');
+  nameInput.classList.add('measure-headers-list-selected', true);
+
+  div.addEventListener('dblclick', function(event){
+      console.log('Double Clicked');
+      nameInput.removeAttribute('disabled');
+  }, true);
+
+  nameInput.addEventListener('mouseout', function(event){
+      console.log('Mouse left.');
+      nameInput.setAttribute('disabled', 'true');
+  }, true);
+
+  div.appendChild(nameInput);
 
   item.appendChild(div);
 
@@ -118,14 +138,27 @@ function activateMeasure(tabID) {
 
   var tabDiv = document.getElementById('tab-div-'+TAB.visibleTab.toString());
   var measureItemSelect = document.getElementById('measure-item-'+TAB.visibleTab.toString());
+  var previousMeasureNameInput = document.getElementById('measure-name-input-' + currentTab.toString());
+  var nextMeasureNameInput = document.getElementById('measure-name-input-' + TAB.visibleTab.toString());
 
   if(currentTab !== 0){
     var measureItemUnselect = document.getElementById('measure-item-'+currentTab.toString());
     document.getElementById('tab-div-'+currentTab).setAttribute('style', 'display: none;');
-    measureItemUnselect.setAttribute('style', 'background: #C9C9C9;');
+
+    measureItemUnselect.classList.toggle('measure-headers-list-selected', false);
+    measureItemUnselect.classList.toggle('measure-headers-list-unselected', true);
+
+    previousMeasureNameInput.classList.toggle('measure-headers-list-unselected', true);
+    previousMeasureNameInput.classList.toggle('measure-headers-list-selected', false);
   }
+
   tabDiv.setAttribute('style', 'display: inherit;');
-  measureItemSelect.setAttribute('style', 'background: orange;');
+
+  measureItemSelect.classList.toggle('measure-headers-list-selected', true);
+  measureItemSelect.classList.toggle('measure-headers-list-unselected', false);
+
+  nextMeasureNameInput.classList.toggle('measure-headers-list-unselected', false);
+  nextMeasureNameInput.classList.toggle('measure-headers-list-selected', true);
 
   var available = document.getElementById('columns-available');
   available.innerHTML = TAB.totalCells[tabID];

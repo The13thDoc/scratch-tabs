@@ -36,18 +36,32 @@ Tabs for each measure/riff
 	padding:7px 10px;
 	display:block;
 	float:left;
-	color:#FFF;
 	border-top-left-radius:10px;
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 0px;
 	border-bottom-left-radius: 0px;
-	background: #C9C9C9; /* old browsers */
 }
 
-.measure-headers > ul > li:hover{
-	background: orchid; /* old browsers */
+.measure-headers-list-selected {
+	background: orange;
+	color: #000;
+}
+
+.measure-headers-list-selected:hover{
+	background: orangered;
+	color: #000;
 	cursor: pointer;
-	color: #333;
+}
+
+.measure-headers-list-unselected {
+	background: #C9C9C9;
+	color: #000;
+}
+
+.measure-headers-list-unselected:hover{
+	background: orchid;
+	color: #000;
+	cursor: pointer;
 }
 
 .measure-content {
