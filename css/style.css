@@ -64,6 +64,10 @@ Tabs for each measure/riff
 	cursor: pointer;
 }
 
+.input-name {
+	background: white;
+}
+
 .measure-content {
 	/*overflow: auto;*/
 }
@@ -157,7 +161,7 @@ Tablature cells
 }
 
 .ascii {
-	width: 100%;
+	width: 90%;
 	height: 239px;
 	/*margin-left: 63px;*/
 	border-width: 5px 0px 5px 0px;

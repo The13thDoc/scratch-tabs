@@ -101,7 +101,7 @@ function addMeasure() {
   div.id = 'measure-div-' + TAB.tabs.toString();
   div.title = 'Measure ' + TAB.tabs.toString();
   // div.innerHTML = 'Measure ' + TAB.tabs.toString();
-  div.classList.add('measure-headers-list');
+  div.classList.add('measure-headers-list-selected');
 
   var nameInput = document.createElement('input');
   nameInput.id = 'measure-name-input-' + TAB.tabs.toString();
@@ -113,11 +113,13 @@ function addMeasure() {
   div.addEventListener('dblclick', function(event){
       console.log('Double Clicked');
       nameInput.removeAttribute('disabled');
+    //   nameInput.classList.toggle('input-name', true);
   }, true);
 
-  nameInput.addEventListener('mouseout', function(event){
+  div.addEventListener('focusout', function(event){
       console.log('Mouse left.');
       nameInput.setAttribute('disabled', 'true');
+    //   nameInput.classList.toggle('input-name', false);
   }, true);
 
   div.appendChild(nameInput);
