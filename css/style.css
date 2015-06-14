@@ -197,5 +197,9 @@ Tablature cells
 }
 
 .measure-context-menu-item:hover {
-	background: rgb(213, 232, 249);;
+	background: rgb(213, 232, 249);
+}
+
+.item-delete:hover {
+	background: orangered;
 }

@@ -114,7 +114,7 @@ function addMeasure() {
   // div.appendChild(nameInput);
   // nameInput.display = 'none';
 
-  div.addEventListener('dblclick', function(event){
+  item.addEventListener('dblclick', function(event){
       console.log('Double Clicked');
     //   div.innerHTML = '';
     //   div.appendChild(nameInput);
@@ -138,26 +138,78 @@ function addMeasure() {
     //   nameInput.classList.toggle('input-name', false);
   // }, true);
 
-  div.addEventListener('contextmenu', function (event){
-      console.log('Context menu enabled');
-      event.preventDefault();
-      var menu = document.getElementById('measure-context-menu');
-      menu.style.display = 'inherit';
-      menu.style.top = event.pageY + "px";
-      menu.style.left = event.pageX + "px";
-  }, true);
+    var nav = createContextMenu(div);
 
-  window.addEventListener('click', function(event){
+    item.addEventListener('contextmenu', function (event){
+        console.log('Context menu enabled');
+        // Prevent normal context menu
+        event.preventDefault();
+        nav.style.top = event.pageY + "px";
+        nav.style.left = event.pageX + "px";
+        nav.style.display = 'inherit';
+    }, true);
+
+    window.addEventListener('click', function(event){
       console.log('Context menu disabled');
-      var menu = document.getElementById('measure-context-menu');
+      var menu = document.getElementById(nav.id);
       menu.style.display = 'none';
-  }, true);
+    }, true);
 
-  item.appendChild(div);
+    item.appendChild(div);
 
-  initUI(TAB.guitarStrings);
+    initUI(TAB.guitarStrings);
 
-  activateMeasure(TAB.tabs);
+    activateMeasure(TAB.tabs);
+}
+
+/**
+Create a context menu for EACH measure.
+*/
+function createContextMenu(div) {
+    var nav = document.createElement('nav');
+    nav.id = 'measure-context-menu-' + TAB.tabs.toString();
+    nav.classList.add('context-menu');
+    document.body.appendChild(nav);
+
+    var ul = document.createElement('ul');
+    ul.id = 'measure-context-menu-list-' + TAB.tabs.toString();
+    ul.classList.add('measure-context-menu-items');
+    nav.appendChild(ul);
+
+    //Context menu event handlers
+    var duplicateItem = document.createElement('li');
+    duplicateItem.id = 'duplicate-' + TAB.tabs.toString();
+    duplicateItem.innerHTML = 'Duplicate';
+    duplicateItem.classList.add('measure-context-menu-item');
+    ul.appendChild(duplicateItem);
+
+    var renameItem = document.createElement('li');
+    renameItem.id = 'rename-' + TAB.tabs.toString();
+    renameItem.innerHTML = 'Rename';
+    renameItem.classList.add('measure-context-menu-item');
+    ul.appendChild(renameItem);
+    renameItem.addEventListener('click', function(event){
+        console.log('Rename Clicked in tab #' + TAB.tabs.toString());
+
+        result = window.prompt('Name the measure', div.innerHTML);
+
+        if(result !== null){
+          div.innerHTML = result;
+          div.title = div.innerHTML;
+        }
+    }, true);
+
+    var hr = document.createElement('hr');
+    ul.appendChild(hr);
+
+    var deleteItem = document.createElement('li');
+    deleteItem.id = 'delete-' + TAB.tabs.toString();
+    deleteItem.innerHTML = 'Delete';
+    deleteItem.classList.add('measure-context-menu-item');
+    deleteItem.classList.add('item-delete');
+    ul.appendChild(deleteItem);
+
+    return nav;
 }
 
 /**
