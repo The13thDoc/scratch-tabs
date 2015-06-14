@@ -203,6 +203,7 @@ function createContextMenu(div) {
     }, true);
 
     var hr = document.createElement('hr');
+    hr.classList.add('measure-context-menu-hr');
     ul.appendChild(hr);
 
     var deleteItem = document.createElement('li');

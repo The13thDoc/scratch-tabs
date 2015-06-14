@@ -182,7 +182,7 @@ Tablature cells
 	display: none;
 	z-index:100;
     position: absolute;
-    background-color: #FFF;
+    background-color: #E8E8E8;
     border: 1px solid black;
 }
 
@@ -202,4 +202,8 @@ Tablature cells
 
 .item-delete:hover {
 	background: orangered;
+}
+
+.measure-context-menu-hr {
+	margin: 0px;
 }
