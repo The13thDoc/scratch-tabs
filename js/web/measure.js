@@ -138,12 +138,6 @@ function addMeasure() {
     //   nameInput.classList.toggle('input-name', false);
   // }, true);
 
-  div.addEventListener('contextmenu', function (event){
-      console.log('Context menu enabled');
-      event.preventDefault();
-      // pop-up menu here
-  }, true);
-
   item.appendChild(div);
 
   initUI(TAB.guitarStrings);
