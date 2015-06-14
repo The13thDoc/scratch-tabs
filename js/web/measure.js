@@ -100,39 +100,49 @@ function addMeasure() {
   var div = document.createElement('div');
   div.id = 'measure-div-' + TAB.tabs.toString();
   div.title = 'Measure ' + TAB.tabs.toString();
-  // div.classList.add('measure-headers-list-selected');
+  div.classList.add('header-size');
+  div.innerHTML = div.title;
 
-  var nameInput = document.createElement('input');
-  nameInput.id = 'measure-name-input-' + TAB.tabs.toString();
-  nameInput.value = 'Measure ' + TAB.tabs.toString();
-  nameInput.placeholder = 'Name your measure';
+  // var nameInput = document.createElement('input');
+  // nameInput.id = 'measure-name-input-' + TAB.tabs.toString();
+  // nameInput.value = 'Measure ' + TAB.tabs.toString();
+  // nameInput.placeholder = 'Name your measure';
   // nameInput.setAttribute('disabled', 'true');
   // nameInput.classList.add('measure-headers-list-selected', true);
 
-  div.innerHTML = nameInput.value;
+
   // div.appendChild(nameInput);
   // nameInput.display = 'none';
 
   div.addEventListener('dblclick', function(event){
       console.log('Double Clicked');
-      div.innerHTML = '';
-      div.appendChild(nameInput);
+    //   div.innerHTML = '';
+    //   div.appendChild(nameInput);
     //   nameInput.removeAttribute('disabled');
-      nameInput.setAttribute('display', 'inhereit');
+    //   nameInput.setAttribute('display', 'inhereit');
     //   nameInput.classList.toggle('input-name', true);
+    result = window.prompt('Name the measure', div.innerHTML);
+
+    if(result !== null){
+        div.innerHTML = result;
+        div.title = div.innerHTML;
+    }
   }, true);
 
-  div.addEventListener('focusout', function(event){
-      console.log('Mouse left.');
-
+  // div.addEventListener('focusout', function(event){
+    //   console.log('Mouse left.');
     //   nameInput.setAttribute('disabled', 'true');
-    div.removeChild(nameInput);
-    div.innerHTML = nameInput.value;
+    // div.removeChild(nameInput);
+    // div.innerHTML = nameInput.value;
     //   nameInput.display = 'none';
     //   nameInput.classList.toggle('input-name', false);
+  // }, true);
+
+  div.addEventListener('contextmenu', function (event){
+      console.log('Context menu enabled');
+      event.preventDefault();
+      // pop-up menu here
   }, true);
-
-
 
   item.appendChild(div);
 

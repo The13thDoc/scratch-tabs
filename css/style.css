@@ -64,8 +64,9 @@ Tabs for each measure/riff
 	cursor: pointer;
 }
 
-.input-name {
-	background: white;
+.header-size {
+	min-width: 15px;
+	min-height: 15px;
 }
 
 .measure-content {
