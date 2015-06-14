@@ -182,6 +182,9 @@ function createContextMenu(div) {
     duplicateItem.innerHTML = 'Duplicate';
     duplicateItem.classList.add('measure-context-menu-item');
     ul.appendChild(duplicateItem);
+    duplicateItem.addEventListener('click', function(event){
+        console.log('Duplicate Clicked in tab #' + div.id);
+    }, true);
 
     var renameItem = document.createElement('li');
     renameItem.id = 'rename-' + TAB.tabs.toString();
@@ -189,7 +192,7 @@ function createContextMenu(div) {
     renameItem.classList.add('measure-context-menu-item');
     ul.appendChild(renameItem);
     renameItem.addEventListener('click', function(event){
-        console.log('Rename Clicked in tab #' + TAB.tabs.toString());
+        console.log('Rename Clicked in tab #' + div.id);
 
         result = window.prompt('Name the measure', div.innerHTML);
 
@@ -208,6 +211,9 @@ function createContextMenu(div) {
     deleteItem.classList.add('measure-context-menu-item');
     deleteItem.classList.add('item-delete');
     ul.appendChild(deleteItem);
+    deleteItem.addEventListener('click', function(event){
+        console.log('Delete Clicked in tab #' + div.id);
+    }, true);
 
     return nav;
 }
