@@ -83,60 +83,25 @@ function extendMeasure() {
 /**
 * Append a new measure to the current list.
 */
-function addMeasure() {
-  var tabsList = document.getElementById('measure-headers-list');
+function addMeasure(duplicateID) {
+    var tabsList = document.getElementById('measure-headers-list');
 
-  var item = document.createElement('li');
+    var item = document.createElement('li');
 
-  TAB.tabs = TAB.tabs + 1;
-  TAB.totalCells[TAB.tabs] = TAB.startCells;
+    TAB.tabs = TAB.tabs + 1;
+    TAB.totalCells[TAB.tabs] = TAB.startCells;
 
-  item.id = 'measure-item-' + TAB.tabs.toString();
-  tabsList.appendChild(item);
-  item.addEventListener('click', function (event) {
-    activateMeasure(div.id.replace('measure-div-',''));
-  }, true);
+    item.id = 'measure-item-' + TAB.tabs.toString();
+    tabsList.appendChild(item);
+    item.addEventListener('click', function (event) {
+        activateMeasure(div.id.replace('measure-div-',''));
+    }, true);
 
-  var div = document.createElement('div');
-  div.id = 'measure-div-' + TAB.tabs.toString();
-  div.title = 'Measure ' + TAB.tabs.toString();
-  div.classList.add('header-size');
-  div.innerHTML = div.title;
-
-  // var nameInput = document.createElement('input');
-  // nameInput.id = 'measure-name-input-' + TAB.tabs.toString();
-  // nameInput.value = 'Measure ' + TAB.tabs.toString();
-  // nameInput.placeholder = 'Name your measure';
-  // nameInput.setAttribute('disabled', 'true');
-  // nameInput.classList.add('measure-headers-list-selected', true);
-
-
-  // div.appendChild(nameInput);
-  // nameInput.display = 'none';
-
-  item.addEventListener('dblclick', function(event){
-      console.log('Double Clicked');
-    //   div.innerHTML = '';
-    //   div.appendChild(nameInput);
-    //   nameInput.removeAttribute('disabled');
-    //   nameInput.setAttribute('display', 'inhereit');
-    //   nameInput.classList.toggle('input-name', true);
-    result = window.prompt('Name the measure', div.innerHTML);
-
-    if(result !== null){
-        div.innerHTML = result;
-        div.title = div.innerHTML;
-    }
-  }, true);
-
-  // div.addEventListener('focusout', function(event){
-    //   console.log('Mouse left.');
-    //   nameInput.setAttribute('disabled', 'true');
-    // div.removeChild(nameInput);
-    // div.innerHTML = nameInput.value;
-    //   nameInput.display = 'none';
-    //   nameInput.classList.toggle('input-name', false);
-  // }, true);
+    var div = document.createElement('div');
+    div.id = 'measure-div-' + TAB.tabs.toString();
+    div.title = 'Measure ' + TAB.tabs.toString();
+    div.classList.add('header-size');
+    div.innerHTML = div.title;
 
     var nav = createContextMenu(div);
 
@@ -157,7 +122,7 @@ function addMeasure() {
 
     item.appendChild(div);
 
-    initUI(TAB.guitarStrings);
+    initUI(TAB.guitarStrings, duplicateID);
 
     activateMeasure(TAB.tabs);
 }
@@ -176,6 +141,8 @@ function createContextMenu(div) {
     ul.classList.add('measure-context-menu-items');
     nav.appendChild(ul);
 
+    var tabID = div.id.toString().substring(div.id.toString().length - 1, div.id.toString().length);
+
     //Context menu event handlers
     var duplicateItem = document.createElement('li');
     duplicateItem.id = 'duplicate-' + TAB.tabs.toString();
@@ -183,7 +150,9 @@ function createContextMenu(div) {
     duplicateItem.classList.add('measure-context-menu-item');
     ul.appendChild(duplicateItem);
     duplicateItem.addEventListener('click', function(event){
-        console.log('Duplicate Clicked in tab #' + div.id);
+        console.log('Rename Clicked in tab #' + tabID);
+
+        addMeasure(tabID);
     }, true);
 
     var renameItem = document.createElement('li');
@@ -192,7 +161,7 @@ function createContextMenu(div) {
     renameItem.classList.add('measure-context-menu-item');
     ul.appendChild(renameItem);
     renameItem.addEventListener('click', function(event){
-        console.log('Rename Clicked in tab #' + div.id);
+        console.log('Rename Clicked in tab #' + tabID);
 
         result = window.prompt('Name the measure', div.innerHTML);
 
@@ -213,7 +182,7 @@ function createContextMenu(div) {
     deleteItem.classList.add('item-delete');
     ul.appendChild(deleteItem);
     deleteItem.addEventListener('click', function(event){
-        console.log('Delete Clicked in tab #' + div.id);
+        console.log('Delete Clicked in tab #' + tabID);
     }, true);
 
     return nav;

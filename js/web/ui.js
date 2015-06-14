@@ -104,7 +104,7 @@ function loadMain() {
 }
 
 // Initialize the UI
-function initUI(guitarStrings) {
+function initUI(guitarStrings, duplicateID) {
     TAB.isInitializing = 'true';
     // Let's create lists here.
     // Replicate a spreadhsheet look
@@ -182,15 +182,25 @@ function initUI(guitarStrings) {
             var item = document.createElement('li');
             item.id = cellID;
 
+            if(duplicateID !== undefined) {
+                var copying = matrixID.substring(0, matrixID.length - 1) + duplicateID;
+                TAB.savedInput[matrixID] = TAB.savedInput[copying];
+            } else {
+                TAB.savedInput[matrixID] = TAB.defaultEmpty;
+            }
+
             // Write the cells
             var canvasElement = getNewCanvas(matrixID);
-            TAB.savedInput[matrixID] = TAB.defaultEmpty;
 
             // front
             item.className = 'input-cell ui-state-default';
             item.appendChild(canvasElement);
 
             inputList.appendChild(item);
+            
+            if(TAB.savedInput[matrixID] !== TAB.defaultEmpty) {
+                writeToCanvas(matrixID, TAB.savedInput[matrixID]);
+            }
         }
     }
     // Finished creating the tablature cells.
