@@ -177,3 +177,25 @@ Tablature cells
 .measure-size {
 	display: inline-flex;
 }
+
+.context-menu {
+	display: none;
+	z-index:100;
+    position: absolute;
+    background-color: #FFF;
+    border: 1px solid black;
+}
+
+.measure-context-menu-items {
+	list-style-type: none;
+	padding: 5px 0px 5px 0px;
+	margin: 0px;
+}
+
+.measure-context-menu-item {
+	padding: 5px 25px 5px 25px;
+}
+
+.measure-context-menu-item:hover {
+	background: rgb(213, 232, 249);;
+}

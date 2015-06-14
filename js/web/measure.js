@@ -138,6 +138,21 @@ function addMeasure() {
     //   nameInput.classList.toggle('input-name', false);
   // }, true);
 
+  div.addEventListener('contextmenu', function (event){
+      console.log('Context menu enabled');
+      event.preventDefault();
+      var menu = document.getElementById('measure-context-menu');
+      menu.style.display = 'inherit';
+      menu.style.top = event.pageY + "px";
+      menu.style.left = event.pageX + "px";
+  }, true);
+
+  window.addEventListener('click', function(event){
+      console.log('Context menu disabled');
+      var menu = document.getElementById('measure-context-menu');
+      menu.style.display = 'none';
+  }, true);
+
   item.appendChild(div);
 
   initUI(TAB.guitarStrings);

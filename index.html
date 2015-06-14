@@ -51,6 +51,16 @@
 			<!-- ASCII div  -->
 		</div>
 	</div>
+
+	<!-- Context menu (right click menu) for the measure tabs -->
+	<nav id='measure-context-menu' class='context-menu'>
+		<ul class='measure-context-menu-items'>
+			<li id='duplicate' class='measure-context-menu-item'>Duplicate</li>
+			<hr>
+			<li id='delete' class='measure-context-menu-item'>Delete</li>
+		</ul>
+	</nav>
+
 	<div id='ascii-div'>
 		<input id='toggle-ascii' type='button' value='Toggle ASCII'
 		title='Toggle ASCII text'/>
@@ -64,18 +74,20 @@
 	<div class='quick-reference'>
 		<p>Hover over any area on the tablature and click.
 			Select multiple cells by clicking and dragging the mouse.
-			Hold <strong>ctrl</strong> and click any additional cells.</p>
-			<p>Type any number from 0 to 24.</p>
-			<h3>Key:</h3>
+			Hold <strong>ctrl</strong> and click any additional cells.
+		</p>
+		<p>Type any number from 0 to 24.</p>
+		<h3>Key:</h3>
 
-			<ul>
-				<li><strong>0-1</strong>: Enter a number into selected cells</li>
-				<li><strong>Delete/Backspace</strong>: Clear input from all selected cells</li>
-				<!-- <li><strong>Esc</strong>: Unselect all cells</li> -->
-				<li><strong>Ctrl+Left Click</strong>: Select/unselect a cell while other cells are selected</li>
-			</ul>
+		<ul>
+			<li><strong>0-1</strong>: Enter a number into selected cells</li>
+			<li><strong>Delete/Backspace</strong>: Clear input from all selected cells</li>
+			<!-- <li><strong>Esc</strong>: Unselect all cells</li> -->
+			<li><strong>Ctrl+Left Click</strong>: Select/unselect a cell while other cells are selected</li>
+		</ul>
 
-			<h2>This is a test prototype. Tabs cannot be saved.</h2>
-		</div>
+		<h2>This is a test prototype. Tabs cannot be saved.</h2>
+	</div>
+
 	</body>
 	</html>
