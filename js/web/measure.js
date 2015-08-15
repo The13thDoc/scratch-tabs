@@ -173,16 +173,33 @@ function createContextMenu(div) {
 
     var hr = document.createElement('hr');
     hr.classList.add('measure-context-menu-hr');
-    ul.appendChild(hr);
+    // Do not include horizontal rule until Delete is ready
+    // ul.appendChild(hr);
 
     var deleteItem = document.createElement('li');
     deleteItem.id = 'delete-' + TAB.tabs.toString();
     deleteItem.innerHTML = 'Delete';
     deleteItem.classList.add('measure-context-menu-item');
     deleteItem.classList.add('item-delete');
-    ul.appendChild(deleteItem);
+    // ul.appendChild(deleteItem); // Do not include in context menu
     deleteItem.addEventListener('click', function(event){
         console.log('Delete Clicked in tab #' + tabID);
+
+        var measureToDelete = document.getElementById('measure-item-' + tabID);
+        var headerList = document.getElementById('measure-headers-list');
+
+        var activate = 1;
+        var intID = parseInt(tabID, 10);
+        if(intID === TAB.tabs) {
+            activate = intID - 1;
+        } else {
+            activate = intID + 1;
+        }
+
+        console.log('Removing: '+intID);
+        console.log('Activating: '+activate);
+        activateMeasure(activate);
+        headerList.removeChild(measureToDelete);
     }, true);
 
     return nav;
@@ -196,6 +213,7 @@ function activateMeasure(tabID) {
   TAB.visibleTab = tabID;
 
   var tabDiv = document.getElementById('tab-div-'+TAB.visibleTab.toString());
+  console.log('tab-div-'+TAB.visibleTab.toString());
   var measureItemSelect = document.getElementById('measure-item-'+TAB.visibleTab.toString());
   var previousMeasureNameInput = document.getElementById('measure-name-input-' + currentTab.toString());
   var nextMeasureNameInput = document.getElementById('measure-name-input-' + TAB.visibleTab.toString());
