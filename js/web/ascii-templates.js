@@ -1,5 +1,5 @@
 {
-    TAB.asciiformats = {
+    TABAPP.asciiformats = {
         'monospace-3':{
             'rules':{
                 'defaultEmpty':'--',

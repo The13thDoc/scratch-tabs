@@ -1,51 +1,53 @@
 /**
 * Functions and variables specific to the measures.
 */
-
+var Measure = function() {
+    console.log('Created a Measure object.');
+};
 /**
 * Remove the last column (fret) from the tablature.
 */
-function shrinkMeasure() {
-  // console.debug('measure', 'Remove last column');
-  // For all user input
-  var inputList = document.getElementById('input-list' + '-' + TAB.visibleTab.toString());
-  var last = TAB.totalCells[TAB.visibleTab];
-  var decremented = last - 1;
+Measure.prototype.shrinkMeasure = function () {
+    // console.debug('measure', 'Remove last column');
+    // For all user input
+    var inputList = document.getElementById('input-list' + '-' + TABAPP.visibleTab.toString());
+    var last = TABAPP.totalCells[TABAPP.visibleTab];
+    var decremented = last - 1;
 
-  // Move DOWN the tablature
-  for (var string = 1; string <= TAB.guitarStrings; string++) {
-    var matrixID = last + 'x' + string + '-' + TAB.visibleTab.toString();
+    // Move DOWN the tablature
+    for (var string = 1; string <= TABAPP.guitarStrings; string++) {
+    var matrixID = last + 'x' + string + '-' + TABAPP.visibleTab.toString();
     var cellID = 'cell_' + matrixID;
 
     var item = document.getElementById(cellID);
     // console.debug('measure', item);
-    delete TAB.savedInput[matrixID];
+    delete TABAPP.savedInput[matrixID];
     inputList.removeChild(item);
-  }
+    }
 
-  // Now, increment the total number of cells by 1.
-  TAB.totalCells[TAB.visibleTab] = decremented;
+    // Now, increment the total number of cells by 1.
+    TABAPP.totalCells[TABAPP.visibleTab] = decremented;
 
-  updateWidth(TAB.totalCells[TAB.visibleTab], inputList);
+    updateWidth(TABAPP.totalCells[TABAPP.visibleTab], inputList);
 
-  writeASCII();
-}
+    writeASCII();
+};
 
 /**
 * Append another column (fret) of input to the tablature.
 */
-function extendMeasure() {
-  // For all user input
-  var inputList = document.getElementById('input-list' + '-' + TAB.visibleTab.toString());
-  var incremented = (TAB.totalCells[TAB.visibleTab] + 1);
+Measure.prototype.extendMeasure = function () {
+    // For all user input
+    var inputList = document.getElementById('input-list' + '-' + TABAPP.visibleTab.toString());
+    var incremented = (TABAPP.totalCells[TABAPP.visibleTab] + 1);
 
-  // Create the input columns
-  // Move DOWN the tablature
-  for (var string = 1; string <= TAB.guitarStrings; string++) {
+    // Create the input columns
+    // Move DOWN the tablature
+    for (var string = 1; string <= TABAPP.guitarStrings; string++) {
 
     // Move ACROSS the tablature
     for (var cell = incremented; cell <= incremented; cell++) {
-      var matrixID = cell + 'x' + string + '-' + TAB.visibleTab.toString();
+      var matrixID = cell + 'x' + string + '-' + TABAPP.visibleTab.toString();
       var cellID = 'cell_' + matrixID;
 
       var item = document.createElement('li');
@@ -53,7 +55,7 @@ function extendMeasure() {
 
       // Write the cells
       var canvasElement = getNewCanvas(matrixID);
-      TAB.savedInput[matrixID] = TAB.defaultEmpty;
+      TABAPP.savedInput[matrixID] = TABAPP.defaultEmpty;
 
       // front
       item.className = 'input-cell ui-state-default';
@@ -61,7 +63,7 @@ function extendMeasure() {
 
       var referenceString = string + 1; // String following current one.
       var referenceElement = document.getElementById('cell_1' + 'x' +
-      referenceString + '-' + TAB.visibleTab.toString());
+      referenceString + '-' + TABAPP.visibleTab.toString());
 
       if (string < 6) {
         inputList.insertBefore(item, referenceElement);
@@ -69,37 +71,37 @@ function extendMeasure() {
         inputList.appendChild(item);
       }
     }
-  }
-  // Finished creating the tablature cells.
+    }
+    // Finished creating the tablature cells.
 
-  // Now, increment the total number of cells by 1.
-  TAB.totalCells[TAB.visibleTab] = incremented;
+    // Now, increment the total number of cells by 1.
+    TABAPP.totalCells[TABAPP.visibleTab] = incremented;
 
-  updateWidth(TAB.totalCells[TAB.visibleTab], inputList);
+    updateWidth(TABAPP.totalCells[TABAPP.visibleTab], inputList);
 
-  writeASCII();
-}
+    writeASCII();
+};
 
 /**
 * Append a new measure to the current list.
 */
-function addMeasure(duplicateID) {
+Measure.prototype.addMeasure = function (duplicateID) {
     var tabsList = document.getElementById('measure-headers-list');
 
     var item = document.createElement('li');
 
-    TAB.tabs = TAB.tabs + 1;
-    TAB.totalCells[TAB.tabs] = TAB.startCells;
+    TABAPP.tabs = TABAPP.tabs + 1;
+    TABAPP.totalCells[TABAPP.tabs] = TABAPP.startCells;
 
-    item.id = 'measure-item-' + TAB.tabs.toString();
+    item.id = 'measure-item-' + TABAPP.tabs.toString();
     tabsList.appendChild(item);
     item.addEventListener('click', function (event) {
         activateMeasure(div.id.replace('measure-div-',''));
     }, true);
 
     var div = document.createElement('div');
-    div.id = 'measure-div-' + TAB.tabs.toString();
-    div.title = 'Measure ' + TAB.tabs.toString();
+    div.id = 'measure-div-' + TABAPP.tabs.toString();
+    div.title = 'Measure ' + TABAPP.tabs.toString();
     div.classList.add('header-size');
     div.innerHTML = div.title;
 
@@ -122,22 +124,22 @@ function addMeasure(duplicateID) {
 
     item.appendChild(div);
 
-    initUI(TAB.guitarStrings, duplicateID);
+    initUI(TABAPP.guitarStrings, duplicateID);
 
-    activateMeasure(TAB.tabs);
-}
+    activateMeasure(TABAPP.tabs);
+};
 
 /**
 Create a context menu for EACH measure.
 */
-function createContextMenu(div) {
+Measure.prototype.createContextMenu = function (div) {
     var nav = document.createElement('nav');
-    nav.id = 'measure-context-menu-' + TAB.tabs.toString();
+    nav.id = 'measure-context-menu-' + TABAPP.tabs.toString();
     nav.classList.add('context-menu');
     document.body.appendChild(nav);
 
     var ul = document.createElement('ul');
-    ul.id = 'measure-context-menu-list-' + TAB.tabs.toString();
+    ul.id = 'measure-context-menu-list-' + TABAPP.tabs.toString();
     ul.classList.add('measure-context-menu-items');
     nav.appendChild(ul);
 
@@ -145,7 +147,7 @@ function createContextMenu(div) {
 
     //Context menu event handlers
     var duplicateItem = document.createElement('li');
-    duplicateItem.id = 'duplicate-' + TAB.tabs.toString();
+    duplicateItem.id = 'duplicate-' + TABAPP.tabs.toString();
     duplicateItem.innerHTML = 'Duplicate';
     duplicateItem.classList.add('measure-context-menu-item');
     ul.appendChild(duplicateItem);
@@ -156,7 +158,7 @@ function createContextMenu(div) {
     }, true);
 
     var renameItem = document.createElement('li');
-    renameItem.id = 'rename-' + TAB.tabs.toString();
+    renameItem.id = 'rename-' + TABAPP.tabs.toString();
     renameItem.innerHTML = 'Rename';
     renameItem.classList.add('measure-context-menu-item');
     ul.appendChild(renameItem);
@@ -177,7 +179,7 @@ function createContextMenu(div) {
     // ul.appendChild(hr);
 
     var deleteItem = document.createElement('li');
-    deleteItem.id = 'delete-' + TAB.tabs.toString();
+    deleteItem.id = 'delete-' + TABAPP.tabs.toString();
     deleteItem.innerHTML = 'Delete';
     deleteItem.classList.add('measure-context-menu-item');
     deleteItem.classList.add('item-delete');
@@ -190,7 +192,7 @@ function createContextMenu(div) {
 
         var activate = 1;
         var intID = parseInt(tabID, 10);
-        if(intID === TAB.tabs) {
+        if(intID === TABAPP.tabs) {
             activate = intID - 1;
         } else {
             activate = intID + 1;
@@ -203,22 +205,22 @@ function createContextMenu(div) {
     }, true);
 
     return nav;
-}
+};
 
 /**
 * Make the measure activate and visible.
 */
-function activateMeasure(tabID) {
-  var currentTab = TAB.visibleTab;
-  TAB.visibleTab = tabID;
+Measure.prototype.activateMeasure = function (tabID) {
+    var currentTab = TABAPP.visibleTab;
+    TABAPP.visibleTab = tabID;
 
-  var tabDiv = document.getElementById('tab-div-'+TAB.visibleTab.toString());
-  console.log('tab-div-'+TAB.visibleTab.toString());
-  var measureItemSelect = document.getElementById('measure-item-'+TAB.visibleTab.toString());
-  var previousMeasureNameInput = document.getElementById('measure-name-input-' + currentTab.toString());
-  var nextMeasureNameInput = document.getElementById('measure-name-input-' + TAB.visibleTab.toString());
+    var tabDiv = document.getElementById('tab-div-'+TABAPP.visibleTab.toString());
+    console.log('tab-div-'+TABAPP.visibleTab.toString());
+    var measureItemSelect = document.getElementById('measure-item-'+TABAPP.visibleTab.toString());
+    var previousMeasureNameInput = document.getElementById('measure-name-input-' + currentTab.toString());
+    var nextMeasureNameInput = document.getElementById('measure-name-input-' + TABAPP.visibleTab.toString());
 
-  if(currentTab !== 0){
+    if(currentTab !== 0){
     var measureItemUnselect = document.getElementById('measure-item-'+currentTab.toString());
     document.getElementById('tab-div-'+currentTab).setAttribute('style', 'display: none;');
 
@@ -227,18 +229,18 @@ function activateMeasure(tabID) {
 
     // previousMeasureNameInput.classList.toggle('measure-headers-list-unselected', true);
     // previousMeasureNameInput.classList.toggle('measure-headers-list-selected', false);
-  }
+    }
 
-  tabDiv.setAttribute('style', 'display: inherit;');
+    tabDiv.setAttribute('style', 'display: inherit;');
 
-  measureItemSelect.classList.toggle('measure-headers-list-selected', true);
-  measureItemSelect.classList.toggle('measure-headers-list-unselected', false);
+    measureItemSelect.classList.toggle('measure-headers-list-selected', true);
+    measureItemSelect.classList.toggle('measure-headers-list-unselected', false);
 
-  // nextMeasureNameInput.classList.toggle('measure-headers-list-unselected', false);
-  // nextMeasureNameInput.classList.toggle('measure-headers-list-selected', true);
+    // nextMeasureNameInput.classList.toggle('measure-headers-list-unselected', false);
+    // nextMeasureNameInput.classList.toggle('measure-headers-list-selected', true);
 
-  var available = document.getElementById('columns-available');
-  available.innerHTML = TAB.totalCells[tabID];
+    var available = document.getElementById('columns-available');
+    available.innerHTML = TABAPP.totalCells[tabID];
 
-  unselectAll();
-}
+    unselectAll();
+};
