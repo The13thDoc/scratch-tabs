@@ -255,5 +255,5 @@ Measure.prototype.activateMeasure = function(tabID) {
     var available = document.getElementById('columns-available');
     available.innerHTML = this.totalCells[tabID];
 
-    // unselectAll(); TODO - Uncomment. Temporarily remove.
+    // TABAPP.input.unselectAll();
 };

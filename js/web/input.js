@@ -3,6 +3,7 @@
  */
 
 TABAPP.input = {
+    selectedMeasure: '',
     /**
      * Translate key codes from a number pad
      * to its actual number.
@@ -25,8 +26,8 @@ TABAPP.input = {
     },
 
     clearTemp: function() {
-        if (TABAPP.userInput.length > 0) {
-            TABAPP.userInput = '';
+        if (TABAPP.ui.userInput.length > 0) {
+            TABAPP.ui.userInput = '';
             console.log('input', 'Cleared temp');
         }
     },
@@ -35,11 +36,11 @@ TABAPP.input = {
      * Write current user input to all selected cells.
      */
     writeAll: function(userInput) {
-        for (var i = 0; i < TABAPP.selected.length; i++) {
+        for (var i = 0; i < TABAPP.input.selectedMeasure.selected.length; i++) {
             // Get only the matrix index. Disregard the element type.
-            var index = TABAPP.selected[i].replace('cell_', '');
+            var index = TABAPP.input.selectedMeasure.selected[i].replace('cell_', '');
 
-            writeToCanvas(index, userInput);
+            TABAPP.canvas.writeToCanvas(index, userInput);
         }
     },
 
@@ -48,12 +49,13 @@ TABAPP.input = {
      */
     unselectAll: function() {
         console.log('input', 'UNSELECT');
-        for (var i = 0; i < TABAPP.selected.length; i++) {
-            var cell = document.getElementById(TABAPP.selected[i]);
+        console.log(TABAPP.input.selectedMeasure);
+        for (var i = 0; i < TABAPP.input.selectedMeasure.selected.length; i++) {
+            var cell = document.getElementById(TABAPP.input.selectedMeasure.selected[i]);
             // console.debug(TABAPP.selected[i]);
             cell.classList.remove('unselect', 'ui-selected');
         }
-        TABAPP.selected = [];
+        TABAPP.input.selectedMeasure.selected = [];
         // console.debug('unselect', TABAPP.selected.length);
     },
 
@@ -62,11 +64,11 @@ TABAPP.input = {
      */
     clearAll: function() {
         console.log('input', 'ERASE');
-        for (var i = 0; i < TABAPP.selected.length; i++) {
+        for (var i = 0; i < TABAPP.input.selectedMeasure.selected.length; i++) {
             // Get only the matrix index. Disregard the element type.
-            var index = TABAPP.selected[i].replace('cell_', '');
+            var index = TABAPP.input.selectedMeasure.selected[i].replace('cell_', '');
 
-            clearCanvas(index);
+            TABAPP.canvas.clearCanvas(index);
         }
     },
 
@@ -78,45 +80,49 @@ TABAPP.input = {
             var key = event.keyCode;
             var char;
 
+            TABAPP.input.selectedMeasure = TABAPP.ui.measure;
+            // console.log(TABAPP.ui.measure);
+            // console.log(this.selectedMeasure);
+
             // INPUT mode
-            if (TABAPP.selected.length != 0) {
-                var timeoutID = window.setTimeout(clearTemp, 1000);
+            if (TABAPP.input.selectedMeasure.selected.length != 0) {
+                var timeoutID = window.setTimeout(this.clearTemp, 1000);
 
                 if (key >= 48 && key <= 57) {
                     char = String.fromCharCode(key);
-                    TABAPP.userInput = TABAPP.userInput + char;
-                    console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.userInput);
+                    TABAPP.ui.userInput = TABAPP.ui.userInput + char;
+                    console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.ui.userInput);
 
-                    if (parseInt(TABAPP.userInput) > TABAPP.maxFrets) {
+                    if (parseInt(TABAPP.ui.userInput) > TABAPP.input.selectedMeasure.maxFrets) {
                         console.log('input', 'Parse to int successful');
-                        TABAPP.userInput = char;
+                        TABAPP.ui.userInput = char;
                     }
 
-                    writeAll(TABAPP.userInput);
+                    this.writeAll(TABAPP.ui.userInput);
                 }
 
                 // 96 - 105 (number pad)
                 if (key >= 96 && key <= 105) {
-                    char = fromKeyCode(key);
-                    TABAPP.userInput = TABAPP.userInput + char;
-                    console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.userInput);
+                    char = TABAPP.input.fromKeyCode(key);
+                    TABAPP.ui.userInput = TABAPP.ui.userInput + char;
+                    console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.ui.userInput);
 
-                    if (parseInt(TABAPP.userInput) > TABAPP.maxFrets) {
+                    if (parseInt(TABAPP.ui.userInput) > TABAPP.input.selectedMeasure.maxFrets) {
                         console.log('input', 'Parse to int successful');
-                        TABAPP.userInput = char;
+                        TABAPP.ui.userInput = char;
                     }
 
-                    writeAll(TABAPP.userInput);
+                    TABAPP.input.writeAll(TABAPP.ui.userInput);
                 }
 
                 // 8 (backspace), 46 (delete)
                 if (key === 8 || key === 46) {
-                    clearAll();
+                    TABAPP.input.clearAll();
                 }
 
                 // 27 (escape)
                 if (key === 27) {
-                    unselectAll();
+                    TABAPP.input.unselectAll();
                 }
 
             }

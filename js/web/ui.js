@@ -47,7 +47,7 @@ TABAPP.ui = {
         };
 
         TABAPP.ui.measure = new Measure();
-        console.log(TABAPP.ui.measure);
+        // console.log(TABAPP.ui.measure);
 
         var asciiText = document.getElementById('ascii-text');
         if (TABAPP.ui.measure.asciiVisible === 'true') {

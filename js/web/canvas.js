@@ -33,7 +33,7 @@ TABAPP.canvas = {
      * with the black line on the canvas.
      */
     writeToCanvas: function(id, text) {
-        this.write(id, text, getNewCanvas(id));
+        this.write(id, text, this.getNewCanvas(id));
     },
 
     /**
@@ -78,7 +78,7 @@ TABAPP.canvas = {
         var cell = document.getElementById('cell_' + id);
         cell.removeChild(cell.lastChild);
 
-        var canvasElement = getNewCanvas(id);
+        var canvasElement = this.getNewCanvas(id);
         TABAPP.savedInput[id] = TABAPP.defaultEmpty;
 
         // add new canvas element to cell
