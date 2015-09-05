@@ -43,7 +43,7 @@ Measure.prototype.shrinkMeasure = function() {
 
     TABAPP.ui.updateWidth(TABAPP.totalCells[TABAPP.visibleTab], inputList);
 
-    // writeASCII(); TODO - Uncomment. Temporarily disable ascii
+    // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily disable ascii
 };
 
 /**
@@ -67,7 +67,7 @@ Measure.prototype.extendMeasure = function() {
             item.id = cellID;
 
             // Write the cells
-            var canvasElement = getNewCanvas(matrixID);
+            var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
             TABAPP.savedInput[matrixID] = TABAPP.defaultEmpty;
 
             // front
@@ -92,7 +92,7 @@ Measure.prototype.extendMeasure = function() {
 
     TABAPP.ui.updateWidth(TABAPP.totalCells[TABAPP.visibleTab], inputList);
 
-    // writeASCII(); TODO - Uncomment. Temporarily disable ascii
+    // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily disable ascii
 };
 
 /**
@@ -167,7 +167,7 @@ Measure.prototype.createContextMenu = function(div) {
     duplicateItem.addEventListener('click', function(event) {
         console.log('Rename Clicked in tab #' + tabID);
 
-        addMeasure(tabID);
+        this.addMeasure(tabID);
     }, true);
 
     var renameItem = document.createElement('li');

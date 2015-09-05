@@ -26,8 +26,8 @@ TABAPP.input = {
     },
 
     clearTemp: function() {
-        if (TABAPP.ui.userInput.length > 0) {
-            TABAPP.ui.userInput = '';
+        if (TABAPP.userInput.length > 0) {
+            TABAPP.userInput = '';
             console.log('input', 'Cleared temp');
         }
     },
@@ -90,29 +90,29 @@ TABAPP.input = {
 
                 if (key >= 48 && key <= 57) {
                     char = String.fromCharCode(key);
-                    TABAPP.ui.userInput = TABAPP.ui.userInput + char;
-                    console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.ui.userInput);
+                    TABAPP.userInput = TABAPP.userInput + char;
+                    console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.userInput);
 
-                    if (parseInt(TABAPP.ui.userInput) > TABAPP.input.selectedMeasure.maxFrets) {
+                    if (parseInt(TABAPP.userInput) > TABAPP.input.selectedMeasure.maxFrets) {
                         console.log('input', 'Parse to int successful');
-                        TABAPP.ui.userInput = char;
+                        TABAPP.userInput = char;
                     }
 
-                    this.writeAll(TABAPP.ui.userInput);
+                    this.writeAll(TABAPP.userInput);
                 }
 
                 // 96 - 105 (number pad)
                 if (key >= 96 && key <= 105) {
                     char = TABAPP.input.fromKeyCode(key);
-                    TABAPP.ui.userInput = TABAPP.ui.userInput + char;
-                    console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.ui.userInput);
+                    TABAPP.userInput = TABAPP.userInput + char;
+                    console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.userInput);
 
-                    if (parseInt(TABAPP.ui.userInput) > TABAPP.input.selectedMeasure.maxFrets) {
+                    if (parseInt(TABAPP.userInput) > TABAPP.input.selectedMeasure.maxFrets) {
                         console.log('input', 'Parse to int successful');
-                        TABAPP.ui.userInput = char;
+                        TABAPP.userInput = char;
                     }
 
-                    TABAPP.input.writeAll(TABAPP.ui.userInput);
+                    TABAPP.input.writeAll(TABAPP.userInput);
                 }
 
                 // 8 (backspace), 46 (delete)

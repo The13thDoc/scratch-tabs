@@ -67,7 +67,7 @@ TABAPP.canvas = {
         cell.appendChild(canvasElement);
 
         if (TABAPP.isInitializing === 'false') {
-            // writeASCII(); TODO - Uncomment. Temporarily remove.
+            // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily remove.
         }
     },
 
@@ -85,7 +85,7 @@ TABAPP.canvas = {
         cell.appendChild(canvasElement);
 
         if (TABAPP.isInitializing === 'false') {
-            // writeASCII(); TODO - Uncomment. Temporarily remove.
+            // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily remove.
         }
     },
 

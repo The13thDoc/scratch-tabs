@@ -164,7 +164,7 @@ TABAPP.ui = {
         var available = document.getElementById('columns-available');
         available.innerHTML = TABAPP.ui.measure.totalCells[TABAPP.tabs];
 
-        // writeASCII(); TODO - Uncomment. Temporarily remove.
+        // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily remove.
         TABAPP.ui.measure.isInitializing = 'false';
     },
 
@@ -210,7 +210,7 @@ TABAPP.ui = {
 
         var addNewMeasure = document.getElementById('add-measure');
         addNewMeasure.addEventListener('click', function(event) {
-            addMeasure();
+            TABAPP.ui.measure.addMeasure();
         }, true);
 
         var toggleASCII = document.getElementById('toggle-ascii');
@@ -228,12 +228,12 @@ TABAPP.ui = {
 
         var incrementMeasure = document.getElementById('increment');
         incrementMeasure.addEventListener('click', function(event) {
-            extendMeasure();
+            TABAPP.ui.measure.extendMeasure();
         }, true);
 
         var decrementMeasure = document.getElementById('decrement');
         decrementMeasure.addEventListener('click', function(event) {
-            shrinkMeasure();
+            TABAPP.ui.measure.shrinkMeasure();
         }, true);
 
         TABAPP.input.initUserInput();
