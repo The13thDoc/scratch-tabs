@@ -8,11 +8,11 @@ TABAPP.ui = {
      * Initialize project variables.
      */
     initProjectVariables: function() {
-        TABAPP.tabs = 0;
-        TABAPP.visibleTab = 0;
-        TABAPP.savedInput = {};
-        TABAPP.userInput = '';
-        TABAPP.asciiformats = {
+        TABAPP.tabs = 0; // shouldn't need
+        TABAPP.visibleTab = 0; // shouldn't need
+        TABAPP.savedInput = {}; // IO
+        TABAPP.userInput = ''; // IO
+        TABAPP.asciiformats = { // Formatting
             'monospace-3': {
                 'rules': {
                     'defaultEmpty': '---',
@@ -46,8 +46,8 @@ TABAPP.ui = {
             }
         };
 
-        TABAPP.ui.measure = new Measure();
-        // console.log(TABAPP.ui.measure);
+        TABAPP.measures = [];
+        TABAPP.activeMeasure;
 
         var asciiText = document.getElementById('ascii-text');
         if (TABAPP.ui.measure.asciiVisible === 'true') {
@@ -59,9 +59,10 @@ TABAPP.ui = {
 
     // Initialize the UI
     initUI: function(guitarStrings, duplicateID) {
-        TABAPP.ui.measure.isInitializing = 'true';
+        var measure = TABAPP.activeMeasure;
+        measure.isInitializing = 'true';
         // Let's create lists here.
-        // Replicate a spreadhsheet look
+        // Replicate a spreadhsheet layout
         var content = document.getElementById('measure-content');
         content.setAttribute('style', 'overflow: auto;');
 
@@ -93,7 +94,7 @@ TABAPP.ui = {
             column.className = 'tuning-column tuning-list';
 
             // Move DOWN the tablature
-            for (var string = 1; string <= TABAPP.ui.measure.guitarStrings; string++) {
+            for (var string = 1; string <= measure.guitarStrings; string++) {
 
                 var matrixID = cell + 'x' + string + '-' + TABAPP.tabs.toString();
                 var cellID = 'cell_' + matrixID;
@@ -126,10 +127,10 @@ TABAPP.ui = {
 
         // Create the input columns
         // Move DOWN the tablature
-        for (var string = 1; string <= TABAPP.ui.measure.guitarStrings; string++) {
+        for (var string = 1; string <= measure.guitarStrings; string++) {
 
             // Move ACROSS the tablature
-            for (var cell = 1; cell <= TABAPP.ui.measure.totalCells[TABAPP.tabs]; cell++) {
+            for (var cell = 1; cell <= measure.totalCells[TABAPP.tabs]; cell++) {
                 var matrixID = cell + 'x' + string + '-' + TABAPP.tabs.toString();
                 var cellID = 'cell_' + matrixID;
 
@@ -140,7 +141,7 @@ TABAPP.ui = {
                     var copying = matrixID.substring(0, matrixID.length - 1) + duplicateID;
                     TABAPP.savedInput[matrixID] = TABAPP.savedInput[copying];
                 } else {
-                    TABAPP.savedInput[matrixID] = TABAPP.ui.measure.defaultEmpty;
+                    TABAPP.savedInput[matrixID] = measure.defaultEmpty;
                 }
 
                 // Write the cells
@@ -152,20 +153,20 @@ TABAPP.ui = {
 
                 inputList.appendChild(item);
 
-                if (TABAPP.savedInput[matrixID] !== TABAPP.ui.measure.defaultEmpty) {
+                if (TABAPP.savedInput[matrixID] !== measure.defaultEmpty) {
                     TABAPP.canvas.writeToCanvas(matrixID, TABAPP.savedInput[matrixID]);
                 }
             }
         }
         // Finished creating the tablature cells.
 
-        this.updateWidth(TABAPP.ui.measure.totalCells[TABAPP.tabs], inputList);
+        this.updateWidth(measure.totalCells[TABAPP.tabs], inputList);
 
         var available = document.getElementById('columns-available');
-        available.innerHTML = TABAPP.ui.measure.totalCells[TABAPP.tabs];
+        available.innerHTML = measure.totalCells[TABAPP.tabs];
 
         // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily remove.
-        TABAPP.ui.measure.isInitializing = 'false';
+        measure.isInitializing = 'false';
     },
 
     /**
@@ -181,10 +182,11 @@ TABAPP.ui = {
 
     // Apply the jQuery selectability to an element.
     makeSelectable: function(e) {
+        var measure = TABAPP.activeMeasure;
         $(e).selectable({
             stop: function() {
                 if (!e.ctrlKey) {
-                    TABAPP.ui.measure.selected = [];
+                    measure.selected = [];
                 }
                 // var result = $("#select-result").empty();
                 $(".ui-selected", this).each(function(index) {
@@ -192,12 +194,95 @@ TABAPP.ui = {
                     var id = $(this).attr('id');
                     if (id.indexOf('cell') > -1) {
                         // execute acton here
-                        TABAPP.ui.measure.selected.push(id);
+                        measure.selected.push(id);
                     }
                 });
-                console.log(TABAPP.ui.measure.selected);
+                console.log(measure.selected);
             }
         });
+    },
+
+    /**
+     * Make the measure activate and visible.
+     */
+    activateMeasure: function(measure) {
+        var currentTab = TABAPP.activeMeasure;
+        // TABAPP.visibleTab = tabID;
+        TABAPP.activeMeasure = measure;
+
+        var tabDiv = document.getElementById('tab-div-' + TABAPP.visibleTab.toString());
+        console.log('tab-div-' + TABAPP.visibleTab.toString());
+        var measureItemSelect = document.getElementById('measure-item-' + TABAPP.visibleTab.toString());
+        var previousMeasureNameInput = document.getElementById('measure-name-input-' + currentTab.toString());
+        var nextMeasureNameInput = document.getElementById('measure-name-input-' + TABAPP.visibleTab.toString());
+
+        if (currentTab !== 0) {
+            var measureItemUnselect = document.getElementById('measure-item-' + currentTab.toString());
+            document.getElementById('tab-div-' + currentTab).setAttribute('style', 'display: none;');
+
+            measureItemUnselect.classList.toggle('measure-headers-list-selected', false);
+            measureItemUnselect.classList.toggle('measure-headers-list-unselected', true);
+        }
+
+        tabDiv.setAttribute('style', 'display: inherit;');
+
+        measureItemSelect.classList.toggle('measure-headers-list-selected', true);
+        measureItemSelect.classList.toggle('measure-headers-list-unselected', false);
+
+        var available = document.getElementById('columns-available');
+        available.innerHTML = measure.totalCells[tabID];
+
+        // TABAPP.input.unselectAll();
+    },
+
+    /**
+     * Append a new measure to the current list.
+     */
+    addMeasure: function() {
+        var measure = new Measure();
+        var tabsList = document.getElementById('measure-headers-list');
+
+        var item = document.createElement('li');
+
+        // append to list
+        // TABAPP.tabs = TABAPP.tabs + 1; // old way
+        TABAPP.measures.push(measure); // new way
+        // this.totalCells[TABAPP.tabs] = this.startCells;
+
+        item.id = 'measure-item-' + TABAPP.tabs.toString();
+        tabsList.appendChild(item);
+        item.addEventListener('click', function(event) {
+            this.activateMeasure(div.id.replace('measure-div-', ''), this);
+        }, true);
+
+        var div = document.createElement('div');
+        div.id = 'measure-div-' + TABAPP.tabs.toString();
+        div.title = 'Measure ' + TABAPP.tabs.toString();
+        div.classList.add('header-size');
+        div.innerHTML = div.title;
+
+        var nav = measure.createContextMenu(div);
+
+        item.addEventListener('contextmenu', function(event) {
+            console.log('Context menu enabled');
+            // Prevent normal context menu
+            event.preventDefault();
+            nav.style.top = event.pageY + "px";
+            nav.style.left = event.pageX + "px";
+            nav.style.display = 'inherit';
+        }, true);
+
+        window.addEventListener('click', function(event) {
+            console.log('Context menu disabled');
+            var menu = document.getElementById(nav.id);
+            menu.style.display = 'none';
+        }, true);
+
+        item.appendChild(div);
+
+        TABAPP.ui.initUI(TABAPP.guitarStrings, duplicateID);
+
+        this.activateMeasure(measure);
     },
 
     /**
@@ -206,11 +291,11 @@ TABAPP.ui = {
     loadMain: function() {
         TABAPP.ui.initProjectVariables();
 
-        TABAPP.ui.measure.addMeasure();
+        this.addMeasure();
 
         var addNewMeasure = document.getElementById('add-measure');
         addNewMeasure.addEventListener('click', function(event) {
-            TABAPP.ui.measure.addMeasure();
+            this.addMeasure();
         }, true);
 
         var toggleASCII = document.getElementById('toggle-ascii');
@@ -237,6 +322,5 @@ TABAPP.ui = {
         }, true);
 
         TABAPP.input.initUserInput();
-    },
-
+    }
 };

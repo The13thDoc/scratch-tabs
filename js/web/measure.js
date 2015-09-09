@@ -2,15 +2,13 @@
  * Functions and variables specific to the measures.
  */
 var Measure = function() {
-    console.log('Created a Measure object.');
+    console.log('Measure', 'Created a Measure object.');
 
-    // variables
+    // Class variables
     this.guitarStrings = 6;
     this.maxFrets = 24;
     this.startCells = 36;
-    this.totalCells = {
-        1: 36
-    }; // number of columns, or 'frets'
+    this.totalCells = startCells; // number of columns, or 'frets'
     this.selected = [];
     this.defaultEmpty = TABAPP.asciiformats['monospace-3']['rules']['defaultEmpty'];
     this.asciiVisible = 'true';
@@ -24,8 +22,6 @@ Measure.prototype.shrinkMeasure = function() {
     // console.debug('measure', 'Remove last column');
     // For all user input
     var inputList = document.getElementById('input-list' + '-' + TABAPP.visibleTab.toString());
-    var last = TABAPP.totalCells[TABAPP.visibleTab];
-    var decremented = last - 1;
 
     // Move DOWN the tablature
     for (var string = 1; string <= TABAPP.guitarStrings; string++) {
@@ -39,9 +35,9 @@ Measure.prototype.shrinkMeasure = function() {
     }
 
     // Now, increment the total number of cells by 1.
-    TABAPP.totalCells[TABAPP.visibleTab] = decremented;
+    this.totalCells = this.totalCells - 1;
 
-    TABAPP.ui.updateWidth(TABAPP.totalCells[TABAPP.visibleTab], inputList);
+    TABAPP.ui.updateWidth(this.totalCells, inputList);
 
     // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily disable ascii
 };
@@ -96,53 +92,6 @@ Measure.prototype.extendMeasure = function() {
 };
 
 /**
- * Append a new measure to the current list.
- */
-Measure.prototype.addMeasure = function(duplicateID) {
-    var tabsList = document.getElementById('measure-headers-list');
-
-    var item = document.createElement('li');
-
-    TABAPP.tabs = TABAPP.tabs + 1;
-    this.totalCells[TABAPP.tabs] = this.startCells;
-
-    item.id = 'measure-item-' + TABAPP.tabs.toString();
-    tabsList.appendChild(item);
-    item.addEventListener('click', function(event) {
-        this.activateMeasure(div.id.replace('measure-div-', ''));
-    }, true);
-
-    var div = document.createElement('div');
-    div.id = 'measure-div-' + TABAPP.tabs.toString();
-    div.title = 'Measure ' + TABAPP.tabs.toString();
-    div.classList.add('header-size');
-    div.innerHTML = div.title;
-
-    var nav = this.createContextMenu(div);
-
-    item.addEventListener('contextmenu', function(event) {
-        console.log('Context menu enabled');
-        // Prevent normal context menu
-        event.preventDefault();
-        nav.style.top = event.pageY + "px";
-        nav.style.left = event.pageX + "px";
-        nav.style.display = 'inherit';
-    }, true);
-
-    window.addEventListener('click', function(event) {
-        console.log('Context menu disabled');
-        var menu = document.getElementById(nav.id);
-        menu.style.display = 'none';
-    }, true);
-
-    item.appendChild(div);
-
-    TABAPP.ui.initUI(TABAPP.guitarStrings, duplicateID);
-
-    this.activateMeasure(TABAPP.tabs);
-};
-
-/**
 Create a context menu for EACH measure.
 */
 Measure.prototype.createContextMenu = function(div) {
@@ -164,10 +113,9 @@ Measure.prototype.createContextMenu = function(div) {
     duplicateItem.innerHTML = 'Duplicate';
     duplicateItem.classList.add('measure-context-menu-item');
     ul.appendChild(duplicateItem);
-    duplicateItem.addEventListener('click', function(event) {
-        console.log('Rename Clicked in tab #' + tabID);
 
-        this.addMeasure(tabID);
+    duplicateItem.addEventListener('click', function(event) {
+        TABAPP.ui.addMeasure(tabID);
     }, true);
 
     var renameItem = document.createElement('li');
@@ -175,9 +123,8 @@ Measure.prototype.createContextMenu = function(div) {
     renameItem.innerHTML = 'Rename';
     renameItem.classList.add('measure-context-menu-item');
     ul.appendChild(renameItem);
-    renameItem.addEventListener('click', function(event) {
-        console.log('Rename Clicked in tab #' + tabID);
 
+    renameItem.addEventListener('click', function(event) {
         result = window.prompt('Name the measure', div.innerHTML);
 
         if (result !== null) {
@@ -218,42 +165,4 @@ Measure.prototype.createContextMenu = function(div) {
     }, true);
 
     return nav;
-};
-
-/**
- * Make the measure activate and visible.
- */
-Measure.prototype.activateMeasure = function(tabID) {
-    var currentTab = TABAPP.visibleTab;
-    TABAPP.visibleTab = tabID;
-
-    var tabDiv = document.getElementById('tab-div-' + TABAPP.visibleTab.toString());
-    console.log('tab-div-' + TABAPP.visibleTab.toString());
-    var measureItemSelect = document.getElementById('measure-item-' + TABAPP.visibleTab.toString());
-    var previousMeasureNameInput = document.getElementById('measure-name-input-' + currentTab.toString());
-    var nextMeasureNameInput = document.getElementById('measure-name-input-' + TABAPP.visibleTab.toString());
-
-    if (currentTab !== 0) {
-        var measureItemUnselect = document.getElementById('measure-item-' + currentTab.toString());
-        document.getElementById('tab-div-' + currentTab).setAttribute('style', 'display: none;');
-
-        measureItemUnselect.classList.toggle('measure-headers-list-selected', false);
-        measureItemUnselect.classList.toggle('measure-headers-list-unselected', true);
-
-        // previousMeasureNameInput.classList.toggle('measure-headers-list-unselected', true);
-        // previousMeasureNameInput.classList.toggle('measure-headers-list-selected', false);
-    }
-
-    tabDiv.setAttribute('style', 'display: inherit;');
-
-    measureItemSelect.classList.toggle('measure-headers-list-selected', true);
-    measureItemSelect.classList.toggle('measure-headers-list-unselected', false);
-
-    // nextMeasureNameInput.classList.toggle('measure-headers-list-unselected', false);
-    // nextMeasureNameInput.classList.toggle('measure-headers-list-selected', true);
-
-    var available = document.getElementById('columns-available');
-    available.innerHTML = this.totalCells[tabID];
-
-    // TABAPP.input.unselectAll();
 };
