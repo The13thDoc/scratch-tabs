@@ -24,7 +24,7 @@ Measure.prototype.shrinkMeasure = function() {
     var inputList = document.getElementById('input-list' + '-' + TABAPP.visibleTab.toString());
 
     // Move DOWN the tablature
-    for (var string = 1; string <= TABAPP.guitarStrings; string++) {
+    for (var string = 1; string <= this.guitarStrings; string++) {
         var matrixID = last + 'x' + string + '-' + TABAPP.visibleTab.toString();
         var cellID = 'cell_' + matrixID;
 
@@ -165,4 +165,83 @@ Measure.prototype.createContextMenu = function(div) {
     }, true);
 
     return nav;
+};
+
+Measure.prototype.createMeasure = function (duplicateID) {
+
+    var tuning = {
+        '1': 'E',
+        '2': 'B',
+        '3': 'G',
+        '4': 'D',
+        '5': 'A',
+        '6': 'E',
+    }
+
+    // Create the tuning column
+    // Move ACROSS the tablature
+    for (var cell = 0; cell <= 0; cell++) {
+
+        var cellColumnID = 'column_' + cell;
+        var column = document.createElement('ul');
+        // column.id = 'tuning-list' + '-' + TABAPP.tabs.toString();
+        column.className = 'tuning-column tuning-list';
+
+        // Move DOWN the tablature
+        for (var string = 1; string <= this.guitarStrings; string++) {
+
+            var matrixID = cell + 'x' + string;
+            var cellID = 'cell_' + matrixID;
+
+            var item = document.createElement('li');
+            item.id = cellID;
+            // Write the tuning
+            // item.innerHTML = tuning[string];
+            item.className = 'cell tuning-cell';
+
+            // Write the cells
+            var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
+
+
+            item.appendChild(canvasElement);
+            column.appendChild(item);
+            tabList.appendChild(column);
+
+            // TABAPP.canvas.writeToBlankCanvas(matrixID, tuning[string]);
+        }
+    }
+    // Create the input columns
+    // Move DOWN the tablature
+    for (var string = 1; string <= this.guitarStrings; string++) {
+
+        // Move ACROSS the tablature
+        for (var cell = 1; cell <= this.totalCells; cell++) {
+            var matrixID = cell + 'x' + string;
+            var cellID = 'cell_' + matrixID;
+
+            var item = document.createElement('li');
+            item.id = cellID;
+
+            if (duplicateID !== undefined) {
+                var copying = matrixID.substring(0, matrixID.length - 1) + duplicateID;
+                TABAPP.savedInput[matrixID] = TABAPP.savedInput[copying];
+            } else {
+                TABAPP.savedInput[matrixID] = measure.defaultEmpty;
+            }
+
+            // Write the cells
+            var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
+
+            // front
+            item.className = 'input-cell ui-state-default';
+            item.appendChild(canvasElement);
+
+            inputList.appendChild(item);
+
+            if (TABAPP.savedInput[matrixID] !== measure.defaultEmpty) {
+                TABAPP.canvas.writeToCanvas(matrixID, TABAPP.savedInput[matrixID]);
+            }
+        }
+    }
+    // Finished creating the tablature cells.
 };

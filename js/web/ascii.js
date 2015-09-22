@@ -12,7 +12,8 @@ TABAPP.ascii = {
     },
 
     /**
-     * Compile and return saved JSON data as a string.
+     * Compile and return saved JSON data from each measure
+     * as a string.
      */
     compileASCII: function() {
         var ascii = '';
@@ -22,13 +23,14 @@ TABAPP.ascii = {
         var rules = format['rules'];
 
         // Move through each measure
-        for (var measure = 1; measure <= TABAPP.tabs; measure++) {
+        for (var measure = 1; measure <= TABAPP.measures.length; measure++) {
+            var currentMeasure = TABAPP.measures[measure];
 
             // Move DOWN the tablature
-            for (var string = 1; string <= TABAPP.guitarStrings; string++) {
+            for (var string = 1; string <= currentMeasure.guitarStrings; string++) {
 
                 // Move ACROSS the tablature
-                for (var cell = 0; cell <= TABAPP.totalCells[measure]; cell++) {
+                for (var cell = 0; cell <= currentMeasure.totalCells; cell++) {
 
                     cellID = cell + 'x' + string + '-' + measure;
 
@@ -59,11 +61,11 @@ TABAPP.ascii = {
                             ascii = ascii + variant['prefirstbeat'] + data + variant['postfirstbeat'];
                         }
                         // Any columns after the first and before the last
-                        else if (cell > 1 && cell < TABAPP.totalCells[measure]) {
+                        else if (cell > 1 && cell < currentMeasure.totalCells) {
                             ascii = ascii + variant['prenextbeat'] + data + variant['postnextbeat'];
                         }
                         // Last column
-                        else if (cell === TABAPP.totalCells[measure]) {
+                        else if (cell === currentMeasure.totalCells) {
                             ascii = ascii + variant['prelastbeat'] + data + variant['postlastbeat'];
                         }
                     }

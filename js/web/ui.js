@@ -2,8 +2,6 @@
 var TABAPP = TABAPP || {};
 
 TABAPP.ui = {
-    measure: '',
-
     /**
      * Initialize project variables.
      */
@@ -55,118 +53,6 @@ TABAPP.ui = {
         } else {
             asciiText.setAttribute('style', 'display: none;');
         }
-    },
-
-    // Initialize the UI
-    initUI: function(guitarStrings, duplicateID) {
-        var measure = TABAPP.activeMeasure;
-        measure.isInitializing = 'true';
-        // Let's create lists here.
-        // Replicate a spreadhsheet layout
-        var content = document.getElementById('measure-content');
-        content.setAttribute('style', 'overflow: auto;');
-
-        var tabDiv = document.createElement('div');
-        tabDiv.id = 'tab-div-' + TABAPP.tabs.toString();
-        tabDiv.className = 'tab-div';
-        content.appendChild(tabDiv);
-
-        var tabList = document.createElement('div');
-        tabList.id = 'tab-list-' + TABAPP.tabs.toString();
-        tabDiv.appendChild(tabList);
-
-        var tuning = {
-            '1': 'E',
-            '2': 'B',
-            '3': 'G',
-            '4': 'D',
-            '5': 'A',
-            '6': 'E',
-        }
-
-        // Create the tuning column
-        // Move ACROSS the tablature
-        for (var cell = 0; cell <= 0; cell++) {
-
-            var cellColumnID = 'column_' + cell + '-' + TABAPP.tabs.toString();
-            var column = document.createElement('ul');
-            column.id = 'tuning-list' + '-' + TABAPP.tabs.toString();
-            column.className = 'tuning-column tuning-list';
-
-            // Move DOWN the tablature
-            for (var string = 1; string <= measure.guitarStrings; string++) {
-
-                var matrixID = cell + 'x' + string + '-' + TABAPP.tabs.toString();
-                var cellID = 'cell_' + matrixID;
-
-                var item = document.createElement('li');
-                item.id = cellID;
-                // Write the tuning
-                // item.innerHTML = tuning[string];
-                item.className = 'cell tuning-cell';
-
-                // Write the cells
-                var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
-
-
-                item.appendChild(canvasElement);
-                column.appendChild(item);
-                tabList.appendChild(column);
-
-                TABAPP.canvas.writeToBlankCanvas(matrixID, tuning[string]);
-            }
-        }
-
-
-        // For all user input
-        var inputList = document.createElement('ul');
-        inputList.id = 'input-list' + '-' + TABAPP.tabs.toString();
-        inputList.className = 'input-list';
-        this.makeSelectable(inputList);
-        tabList.appendChild(inputList);
-
-        // Create the input columns
-        // Move DOWN the tablature
-        for (var string = 1; string <= measure.guitarStrings; string++) {
-
-            // Move ACROSS the tablature
-            for (var cell = 1; cell <= measure.totalCells[TABAPP.tabs]; cell++) {
-                var matrixID = cell + 'x' + string + '-' + TABAPP.tabs.toString();
-                var cellID = 'cell_' + matrixID;
-
-                var item = document.createElement('li');
-                item.id = cellID;
-
-                if (duplicateID !== undefined) {
-                    var copying = matrixID.substring(0, matrixID.length - 1) + duplicateID;
-                    TABAPP.savedInput[matrixID] = TABAPP.savedInput[copying];
-                } else {
-                    TABAPP.savedInput[matrixID] = measure.defaultEmpty;
-                }
-
-                // Write the cells
-                var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
-
-                // front
-                item.className = 'input-cell ui-state-default';
-                item.appendChild(canvasElement);
-
-                inputList.appendChild(item);
-
-                if (TABAPP.savedInput[matrixID] !== measure.defaultEmpty) {
-                    TABAPP.canvas.writeToCanvas(matrixID, TABAPP.savedInput[matrixID]);
-                }
-            }
-        }
-        // Finished creating the tablature cells.
-
-        this.updateWidth(measure.totalCells[TABAPP.tabs], inputList);
-
-        var available = document.getElementById('columns-available');
-        available.innerHTML = measure.totalCells[TABAPP.tabs];
-
-        // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily remove.
-        measure.isInitializing = 'false';
     },
 
     /**
@@ -240,6 +126,8 @@ TABAPP.ui = {
      */
     addMeasure: function() {
         var measure = new Measure();
+        measure.isInitializing = 'true';
+
         var tabsList = document.getElementById('measure-headers-list');
 
         var item = document.createElement('li');
@@ -249,15 +137,15 @@ TABAPP.ui = {
         TABAPP.measures.push(measure); // new way
         // this.totalCells[TABAPP.tabs] = this.startCells;
 
-        item.id = 'measure-item-' + TABAPP.tabs.toString();
+        // item.id = 'measure-item-' + TABAPP.tabs.toString();
         tabsList.appendChild(item);
         item.addEventListener('click', function(event) {
             this.activateMeasure(div.id.replace('measure-div-', ''), this);
         }, true);
 
         var div = document.createElement('div');
-        div.id = 'measure-div-' + TABAPP.tabs.toString();
-        div.title = 'Measure ' + TABAPP.tabs.toString();
+        // div.id = 'measure-div-' + TABAPP.tabs.toString();
+        // div.title = 'Measure ' + TABAPP.tabs.toString();
         div.classList.add('header-size');
         div.innerHTML = div.title;
 
@@ -280,9 +168,40 @@ TABAPP.ui = {
 
         item.appendChild(div);
 
-        TABAPP.ui.initUI(TABAPP.guitarStrings, duplicateID);
+        // Let's create lists here.
+        // Replicate a spreadhsheet layout
+        var content = document.getElementById('measure-content');
+        content.setAttribute('style', 'overflow: auto;');
 
+        var tabDiv = document.createElement('div');
+        // tabDiv.id = 'tab-div-' + TABAPP.tabs.toString();
+        tabDiv.className = 'tab-div';
+        content.appendChild(tabDiv);
+
+        var tabList = document.createElement('div');
+        // tabList.id = 'tab-list-' + TABAPP.tabs.toString();
+        tabDiv.appendChild(tabList);
+
+        // Measure object here
+
+        // For all user input
+        var inputList = document.createElement('ul');
+        // inputList.id = 'input-list' + '-' + TABAPP.tabs.toString();
+        inputList.className = 'input-list';
+        this.makeSelectable(inputList);
+        tabList.appendChild(inputList);
+
+        // Measure object here
+
+        this.updateWidth(measure.totalCells, inputList);
+
+        var available = document.getElementById('columns-available');
+        available.innerHTML = measure.totalCells;
+
+        // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily remove.
+        measure.isInitializing = 'false';
         this.activateMeasure(measure);
+
     },
 
     /**
