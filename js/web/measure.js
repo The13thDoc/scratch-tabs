@@ -167,8 +167,7 @@ Measure.prototype.createContextMenu = function(div) {
     return nav;
 };
 
-Measure.prototype.createMeasure = function (duplicateID) {
-
+Measure.prototype.createTuning = function () {
     var tuning = {
         '1': 'E',
         '2': 'B',
@@ -178,38 +177,37 @@ Measure.prototype.createMeasure = function (duplicateID) {
         '6': 'E',
     }
 
-    // Create the tuning column
-    // Move ACROSS the tablature
-    for (var cell = 0; cell <= 0; cell++) {
+    var cellColumnID = 'column_' + cell;
+    var column = document.createElement('ul');
+    // column.id = 'tuning-list' + '-' + TABAPP.tabs.toString();
+    column.className = 'tuning-column tuning-list';
 
-        var cellColumnID = 'column_' + cell;
-        var column = document.createElement('ul');
-        // column.id = 'tuning-list' + '-' + TABAPP.tabs.toString();
-        column.className = 'tuning-column tuning-list';
+    // Move DOWN the tablature
+    for (var string = 1; string <= this.guitarStrings; string++) {
 
-        // Move DOWN the tablature
-        for (var string = 1; string <= this.guitarStrings; string++) {
+        var matrixID = cell + 'x' + string;
+        var cellID = 'cell_' + matrixID;
 
-            var matrixID = cell + 'x' + string;
-            var cellID = 'cell_' + matrixID;
+        var item = document.createElement('li');
+        item.id = cellID;
+        // Write the tuning
+        // item.innerHTML = tuning[string];
+        item.className = 'cell tuning-cell';
 
-            var item = document.createElement('li');
-            item.id = cellID;
-            // Write the tuning
-            // item.innerHTML = tuning[string];
-            item.className = 'cell tuning-cell';
-
-            // Write the cells
-            var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
+        // Write the cells
+        var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
 
 
-            item.appendChild(canvasElement);
-            column.appendChild(item);
-            tabList.appendChild(column);
+        item.appendChild(canvasElement);
+        column.appendChild(item);
+        // tabList.appendChild(column);
 
-            // TABAPP.canvas.writeToBlankCanvas(matrixID, tuning[string]);
-        }
+        // TABAPP.canvas.writeToBlankCanvas(matrixID, tuning[string]);
     }
+    return column;
+};
+
+Measure.prototype.createMeasure = function (duplicateID, inputList) {
     // Create the input columns
     // Move DOWN the tablature
     for (var string = 1; string <= this.guitarStrings; string++) {

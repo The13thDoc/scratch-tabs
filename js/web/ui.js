@@ -116,7 +116,7 @@ TABAPP.ui = {
         measureItemSelect.classList.toggle('measure-headers-list-unselected', false);
 
         var available = document.getElementById('columns-available');
-        available.innerHTML = measure.totalCells[tabID];
+        available.innerHTML = measure.totalCells;
 
         // TABAPP.input.unselectAll();
     },
@@ -162,8 +162,8 @@ TABAPP.ui = {
 
         window.addEventListener('click', function(event) {
             console.log('Context menu disabled');
-            var menu = document.getElementById(nav.id);
-            menu.style.display = 'none';
+            // var menu = document.getElementById(nav.id);
+            nav.style.display = 'none';
         }, true);
 
         item.appendChild(div);
@@ -182,7 +182,7 @@ TABAPP.ui = {
         // tabList.id = 'tab-list-' + TABAPP.tabs.toString();
         tabDiv.appendChild(tabList);
 
-        // Measure object here
+        tabList.appendChild(measure.createTuning());
 
         // For all user input
         var inputList = document.createElement('ul');
@@ -191,17 +191,13 @@ TABAPP.ui = {
         this.makeSelectable(inputList);
         tabList.appendChild(inputList);
 
-        // Measure object here
+        measure.createMeasure(inputList);
 
         this.updateWidth(measure.totalCells, inputList);
-
-        var available = document.getElementById('columns-available');
-        available.innerHTML = measure.totalCells;
 
         // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily remove.
         measure.isInitializing = 'false';
         this.activateMeasure(measure);
-
     },
 
     /**
