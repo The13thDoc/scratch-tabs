@@ -93,7 +93,7 @@ TABAPP.input = {
                     TABAPP.userInput = TABAPP.userInput + char;
                     console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.userInput);
 
-                    if (parseInt(TABAPP.userInput) > TABAPP.input.selectedMeasure.maxFrets) {
+                    if (parseInt(TABAPP.userInput) > TABAPP.input.selectedMeasure.fretCount) {
                         console.log('input', 'Parse to int successful');
                         TABAPP.userInput = char;
                     }
@@ -107,7 +107,7 @@ TABAPP.input = {
                     TABAPP.userInput = TABAPP.userInput + char;
                     console.log('input', 'WRITE - keyCode: ' + key + '; charCode: ' + char + ' = ' + TABAPP.userInput);
 
-                    if (parseInt(TABAPP.userInput) > TABAPP.input.selectedMeasure.maxFrets) {
+                    if (parseInt(TABAPP.userInput) > TABAPP.input.selectedMeasure.fretCount) {
                         console.log('input', 'Parse to int successful');
                         TABAPP.userInput = char;
                     }

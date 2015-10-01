@@ -1,100 +1,60 @@
 /**
- * Functions specific to canvas.
+ * BlankCanvas.
+ * LinedCanvas.
+ * Creates and returns canvas elements.
  */
 
-TABAPP.canvas = {
-    /**
-     * Returns a new canvas element with the default drawing.
-     */
-    getNewCanvas: function(id) {
-        var canvasElement = this.getNewBlankCanvas(id);
-        var canvas = canvasElement.getContext("2d");
-        // canvas.fillStyle = "#708090";
-        // canvas.fillRect(0, 0, 20, 20);
-        this.drawLine(canvas);
+var BlankCanvas = function BlankCanvas() {
+    this.canvasElement;
+    // Returns a new, blank canvas element.
+    this.init = function init(id) {
+        this.canvasElement = document.createElement('canvas');
+        this.canvasElement.id = 'canvas_' + id;
+        this.canvasElement.width = '20';
+        this.canvasElement.height = '20';
+    };
+    this.init();
 
-        return canvasElement;
-    },
+    return this.canvasElement;
+};
 
-    /**
-     * Returns a new canvas element with the default drawing.
-     */
-    getNewBlankCanvas: function(id) {
-        var canvasElement = document.createElement('canvas');
-        canvasElement.id = 'canvas_' + id;
-        canvasElement.width = '20';
-        canvasElement.height = '20';
+// Write the specified text to the specified canvas.
+BlankCanvas.prototype.write = function write(text) {
+    var canvasContext = this.canvasElement.getContext("2d");
+    var x = this.canvasElement.width / 2;
+    var y = this.canvasElement.height / 2;
 
-        return canvasElement;
-    },
+    // draw text
+    canvasContext.font = '10pt Arial';
+    canvasContext.textAlign = 'center';
+    canvasContext.textBaseline = 'middle';
+    canvasContext.strokeText(text, x, y);
+};
 
-    /**
-     * Draw user input to canvas cell in the tablature,
-     * with the black line on the canvas.
-     */
-    writeToCanvas: function(id, text) {
-        this.write(id, text, this.getNewCanvas(id));
-    },
+// Create a new, default canvas (erase).
+BlankCanvas.prototype.clear = function clear() {
+    this.canvasElement = this.init();
+};
 
-    /**
-     * Draw to a blank canvas.
-     */
-    writeToBlankCanvas: function(id, text) {
-        this.write(id, text, this.getNewBlankCanvas(id));
-    },
+// Constructor.
+var LinedCanvas = function LinedCanvas() {
+    BlankCanvas.call(this);
+    this.canvasElement;
+    this.init();
+    this.drawLine();
 
-    /**
-     * Write the specified text to the specified canvas.
-     */
-    write: function(id, text, canvasElement) {
-        var cell = document.getElementById('cell_' + id);
+    return this.canvasElement;
+};
 
-        var canvasContext = canvasElement.getContext("2d");
-        var x = canvasElement.width / 2;
-        var y = canvasElement.height / 2;
+LinedCanvas.prototype = Object.create(BlankCanvas.prototype);
 
-        // draw text
-        canvasContext.font = '10pt Arial';
-        canvasContext.textAlign = 'center';
-        canvasContext.textBaseline = 'middle';
-        canvasContext.strokeText(text, x, y);
+// Set the "constructor" property to refer to LinedCanvas
+LinedCanvas.prototype.constructor = LinedCanvas;
 
-        TABAPP.savedInput[id] = text;
-
-        // remove current canvas
-        cell.removeChild(cell.lastChild);
-        // add new canvas
-        cell.appendChild(canvasElement);
-
-        if (TABAPP.isInitializing === 'false') {
-            // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily remove.
-        }
-    },
-
-    /**
-     * Create a new, default canvas (erase).
-     */
-    clearCanvas: function(id) {
-        var cell = document.getElementById('cell_' + id);
-        cell.removeChild(cell.lastChild);
-
-        var canvasElement = this.getNewCanvas(id);
-        TABAPP.savedInput[id] = TABAPP.defaultEmpty;
-
-        // add new canvas element to cell
-        cell.appendChild(canvasElement);
-
-        if (TABAPP.isInitializing === 'false') {
-            // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily remove.
-        }
-    },
-
-    /**
-     * Pain the default look onto the canvas cell.
-     */
-    drawLine: function(canvas) {
-        // paint black line
-        canvas.fillStyle = "#000000";
-        canvas.fillRect(0, 10, 20, 1);
-    }
+// Paint the default (a black line) look onto the canvas.
+LinedCanvas.prototype.drawLine = function drawLine() {
+    var canvasContext = this.canvasElement.getContext("2d");
+    // paint black line
+    canvasContext.fillStyle = "#000000";
+    canvasContext.fillRect(0, 10, 20, 1);
 };

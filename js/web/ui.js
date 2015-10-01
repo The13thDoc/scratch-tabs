@@ -6,9 +6,10 @@ TABAPP.ui = {
      * Initialize project variables.
      */
     initProjectVariables: function() {
-        TABAPP.tabs = 0; // shouldn't need
-        TABAPP.visibleTab = 0; // shouldn't need
-        TABAPP.savedInput = {}; // IO
+        TABAPP.measures = [];
+        TABAPP.activeMeasure;
+        // TABAPP.tabs = 0; // shouldn't need
+        // TABAPP.visibleTab = 0; // shouldn't need
         TABAPP.userInput = ''; // IO
         TABAPP.asciiformats = { // Formatting
             'monospace-3': {
@@ -43,9 +44,6 @@ TABAPP.ui = {
                 }
             }
         };
-
-        TABAPP.measures = [];
-        TABAPP.activeMeasure;
 
         var asciiText = document.getElementById('ascii-text');
         if (TABAPP.ui.measure.asciiVisible === 'true') {

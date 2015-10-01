@@ -5,26 +5,45 @@ var Measure = function() {
     console.log('Measure', 'Created a Measure object.');
 
     // Class variables
-    this.guitarStrings = 6;
-    this.maxFrets = 24;
+    this.stringCount = 6;
+    this.fretCount = 24;
     this.startCells = 36;
-    this.totalCells = startCells; // number of columns, or 'frets'
+    this.totalCells = startCells; // number of musical columns
     this.selected = [];
-    this.defaultEmpty = TABAPP.asciiformats['monospace-3']['rules']['defaultEmpty'];
     this.asciiVisible = 'true';
     this.isInitializing = 'false';
-
+    this.guitarStrings = [];
 };
-/**
- * Remove the last column (fret) from the tablature.
- */
-Measure.prototype.shrinkMeasure = function() {
+
+Measure.prototype.init = function init() {
+    var tuning = {
+        '1': 'E',
+        '2': 'B',
+        '3': 'G',
+        '4': 'D',
+        '5': 'A',
+        '6': 'E',
+    };
+
+    // For user input
+    var inputList = document.createElement('ul');
+    inputList.className = 'input-list';
+    TABAPP.ui.makeSelectable(inputList);
+
+    for (var string = 1; string <= this.stringCount; string++) {
+        this.guitarStrings[string] = new GuitarString(fretCount, totalCells,
+            tuning[string], inputList);
+    }
+};
+
+// Remove the last column (fret) from the tablature.
+Measure.prototype.shrinkMeasure = function() shrinkMeasure {
     // console.debug('measure', 'Remove last column');
     // For all user input
     var inputList = document.getElementById('input-list' + '-' + TABAPP.visibleTab.toString());
 
     // Move DOWN the tablature
-    for (var string = 1; string <= this.guitarStrings; string++) {
+    for (var string = 1; string <= this.stringCount; string++) {
         var matrixID = last + 'x' + string + '-' + TABAPP.visibleTab.toString();
         var cellID = 'cell_' + matrixID;
 
@@ -42,9 +61,7 @@ Measure.prototype.shrinkMeasure = function() {
     // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily disable ascii
 };
 
-/**
- * Append another column (fret) of input to the tablature.
- */
+// Append another column (fret) of input to the tablature.
 Measure.prototype.extendMeasure = function() {
     // For all user input
     var inputList = document.getElementById('input-list' + '-' + TABAPP.visibleTab.toString());
@@ -52,7 +69,7 @@ Measure.prototype.extendMeasure = function() {
 
     // Create the input columns
     // Move DOWN the tablature
-    for (var string = 1; string <= TABAPP.guitarStrings; string++) {
+    for (var string = 1; string <= TABAPP.stringCount; string++) {
 
         // Move ACROSS the tablature
         for (var cell = incremented; cell <= incremented; cell++) {
@@ -91,9 +108,7 @@ Measure.prototype.extendMeasure = function() {
     // TABPAPP.ascii.writeASCII(); TODO - Uncomment. Temporarily disable ascii
 };
 
-/**
-Create a context menu for EACH measure.
-*/
+// Create a context menu for EACH measure.
 Measure.prototype.createContextMenu = function(div) {
     var nav = document.createElement('nav');
     nav.id = 'measure-context-menu-' + TABAPP.tabs.toString();
@@ -167,7 +182,8 @@ Measure.prototype.createContextMenu = function(div) {
     return nav;
 };
 
-Measure.prototype.createTuning = function () {
+// Create tuning UI
+Measure.prototype.createTuning = function() {
     var tuning = {
         '1': 'E',
         '2': 'B',
@@ -177,22 +193,22 @@ Measure.prototype.createTuning = function () {
         '6': 'E',
     }
 
-    var cellColumnID = 'column_' + cell;
+    // var cellColumnID = 'column_' + cell;
     var column = document.createElement('ul');
     // column.id = 'tuning-list' + '-' + TABAPP.tabs.toString();
     column.className = 'tuning-column tuning-list';
 
     // Move DOWN the tablature
-    for (var string = 1; string <= this.guitarStrings; string++) {
+    for (var string = 1; string <= this.stringCount; string++) {
 
-        var matrixID = cell + 'x' + string;
-        var cellID = 'cell_' + matrixID;
+        // var matrixID = cell + 'x' + string;
+        // var cellID = 'cell_' + matrixID;
 
         var item = document.createElement('li');
-        item.id = cellID;
+        // item.id = cellID;
         // Write the tuning
         // item.innerHTML = tuning[string];
-        item.className = 'cell tuning-cell';
+        // item.className = 'cell tuning-cell';
 
         // Write the cells
         var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
@@ -207,39 +223,40 @@ Measure.prototype.createTuning = function () {
     return column;
 };
 
-Measure.prototype.createMeasure = function (duplicateID, inputList) {
+// Create measure UI
+Measure.prototype.createMeasure = function(inputList) {
     // Create the input columns
     // Move DOWN the tablature
-    for (var string = 1; string <= this.guitarStrings; string++) {
+    for (var string = 1; string <= this.stringCount; string++) {
 
         // Move ACROSS the tablature
-        for (var cell = 1; cell <= this.totalCells; cell++) {
-            var matrixID = cell + 'x' + string;
-            var cellID = 'cell_' + matrixID;
+        // for (var cell = 1; cell <= this.totalCells; cell++) {
+        // var matrixID = cell + 'x' + string;
+        // var cellID = 'cell_' + matrixID;
 
-            var item = document.createElement('li');
-            item.id = cellID;
+        // var item = document.createElement('li');
+        // item.id = cellID;
 
-            if (duplicateID !== undefined) {
-                var copying = matrixID.substring(0, matrixID.length - 1) + duplicateID;
-                TABAPP.savedInput[matrixID] = TABAPP.savedInput[copying];
-            } else {
-                TABAPP.savedInput[matrixID] = measure.defaultEmpty;
-            }
+        // if (duplicateID !== undefined) {
+        //     var copying = matrixID.substring(0, matrixID.length - 1) + duplicateID;
+        //     TABAPP.savedInput[matrixID] = TABAPP.savedInput[copying];
+        // } else {
+        // TABAPP.savedInput[matrixID] = measure.defaultEmpty;
+        // }
 
-            // Write the cells
-            var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
+        // Write the cells
+        // var canvasElement = TABAPP.canvas.getNewCanvas(matrixID);
 
-            // front
-            item.className = 'input-cell ui-state-default';
-            item.appendChild(canvasElement);
+        // front
+        // item.className = 'input-cell ui-state-default';
+        // item.appendChild(canvasElement);
 
-            inputList.appendChild(item);
+        // inputList.appendChild(item);
 
-            if (TABAPP.savedInput[matrixID] !== measure.defaultEmpty) {
-                TABAPP.canvas.writeToCanvas(matrixID, TABAPP.savedInput[matrixID]);
-            }
-        }
+        // if (TABAPP.savedInput[matrixID] !== measure.defaultEmpty) {
+        //     TABAPP.canvas.writeToCanvas(matrixID, TABAPP.savedInput[matrixID]);
     }
-    // Finished creating the tablature cells.
+}
+}
+// Finished creating the tablature cells.
 };
