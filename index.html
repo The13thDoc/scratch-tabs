@@ -1,87 +1,79 @@
 <!doctype html>
-<html>
+<html ng-app="scratch-tabs">
+
 <head>
 	<meta charset='utf-8'>
 	<title>Scratch Tabs Test Prototype</title>
 
-	<link href="./css/style.css" rel="stylesheet" type="text/css" >
-	<link rel="icon" type="image/png" href="logo-128.png"/>
+	<link href="./css/style.css" rel="stylesheet" type="text/css">
+	<link rel="icon" type="image/png" href="logo-128.png" />
 
 	<script src="./js/jquery/jquery-1.10.2.js"></script>
 	<script src="./js/jquery/jquery-ui.js"></script>
 	<!--<script src="./js/jquery/jquery-ui.css"></script>-->
 	<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+	<link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700'>
+	<link rel="stylesheet" type="text/css" href="./css/normalize.css">
 
-	<link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700' rel='stylesheet' type='text/css'>
-
-	<link href="./css/normalize.css" rel="stylesheet" type="text/css">
-
-	<script type='text/javascript' src='./js/web/ui.js'></script>
+	<!-- <script type='text/javascript' src='./js/web/ui.js'></script>
 	<script type='text/javascript' src='./js/web/ascii.js'></script>
 	<script type='text/javascript' src='./js/web/canvas.js'></script>
 	<script type='text/javascript' src='./js/web/input.js'></script>
 	<script type='text/javascript' src='./js/web/measure.js'></script>
-	<script type='text/javascript' src='./js/web/onload.js'></script>
+	<script type='text/javascript' src='./js/web/onload.js'></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+	<script type='text/javascript' src='./js/web/controllers/app.js'></script>
+	<script type='text/javascript' src='./js/web/controllers/MeasureDirective.js'></script>
+	<script type='text/javascript' src='./js/web/controllers/MeasureTabDirective.js'></script>
+	<script type='text/javascript' src='./js/web/controllers/MeasureTablatureDirective.js'></script>
+	<script type='text/javascript' src='./js/web/controllers/MeasureTuningDirective.js'></script>
 </head>
+
 <body>
 	<!-- Main UI Skeleton-->
 	<div id='main-ui' class='main-ui'>
 		<!-- Title -->
 		<input id='title' type='text' placeholder='Title' />
-		<!-- This should remain a list, with tabs to be added removed.-->
-		<!-- Each tab will contain its own unique objects, created dynamicazlly. -->
-		<div id='measure-ui' class='measure-ui'>
-			<!--24 Tab -->
-			<div id='measure-headers' class='measure-headers'>
-				<ul id='measure-headers-list' >
-					<li><input id='add-measure' type='button' value='+' title='Add a measure'/></li>
-					<!-- add items to the LIST -->
-					<!-- increment this ID dynamically -->
-				</ul>
-
-			</div>
-			<div class='clear'></div>
-			<!-- Only need one of these. Content will be switched out as measure headers are selected from the list. -->
-			<div id='measure-content' class='measure-content'></div>
-			<div class='clear'></div>
-			<div id='measure-size' class='measure-size'>
-				<input id='decrement' type='button' value='<' title='Remove one'/>
-				<div id='columns-available'></div>
-				<input id='increment' type='button' value='>' title='Add one'/>
-			</div>
-			<div class='clear'></div>
-			<br>
-			<!-- ASCII div  -->
+		<measure></measure>
+		<div class='clear'></div>
+		<div id='measure-size' class='measure-size' hidden>
+			<input id='decrement' type='button' value='<' title='Remove one' />
+			<div id='columns-available'></div>
+			<input id='increment' type='button' value='>' title='Add one' />
 		</div>
+		<div class='clear'></div>
+		<br>
 	</div>
 
-	<div id='ascii-div'>
-		<input id='toggle-ascii' type='button' value='Toggle ASCII'
-		title='Toggle ASCII text'/>
+	<div id='ascii-div' hidden>
+		<input id='toggle-ascii' type='button' value='Toggle ASCII' title='Toggle ASCII text' />
 		<div class='clear'></div>
-		<textarea id='ascii-text' type='text' class='ascii' readonly >
+		<textarea id='ascii-text' type='text' class='ascii' readonly>
 		</textarea>
 	</div>
 
 	<div class='clear'></div>
 
-	<div class='quick-reference'>
-		<p>Hover over any area on the tablature and click.
-			Select multiple cells by clicking and dragging the mouse.
-			Hold <strong>ctrl</strong> and click any additional cells.
+	<div class='quick-reference' hidden>
+		<p>Hover over any area on the tablature and click. Select multiple cells by clicking and dragging the mouse. Hold
+			<strong>ctrl</strong> and click any additional cells.
 		</p>
 		<p>Type any number from 0 to 24.</p>
 		<h3>Key:</h3>
 
 		<ul>
-			<li><strong>0-1</strong>: Enter a number into selected cells</li>
-			<li><strong>Delete/Backspace</strong>: Clear input from all selected cells</li>
+			<li>
+				<strong>0-1</strong>: Enter a number into selected cells</li>
+			<li>
+				<strong>Delete/Backspace</strong>: Clear input from all selected cells</li>
 			<!-- <li><strong>Esc</strong>: Unselect all cells</li> -->
-			<li><strong>Ctrl+Left Click</strong>: Select/unselect a cell while other cells are selected</li>
+			<li>
+				<strong>Ctrl+Left Click</strong>: Select/unselect a cell while other cells are selected</li>
 		</ul>
 
 		<h2>This is a test prototype. Tabs cannot be saved.</h2>
 	</div>
 
-	</body>
-	</html>
+</body>
+
+</html>
